@@ -99,8 +99,7 @@
     <header>
         <h1>Ummah Athletes</h1>
         <nav>
-            <a href="{{ route('login') }}">Login</a>
-            <a href="{{ route('register') }}">Register</a>
+            <a href="{{ route('profile.edit') }}">Perfil</a>
         </nav>
     </header>
 
@@ -123,28 +122,48 @@
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                locale: 'es', // 🔹 Idioma español
-                firstDay: 1, // 🔹 Lunes como primer día
+                locale: 'es',
                 initialView: 'dayGridMonth',
-                height: 650,
-                dayHeaderFormat: { weekday: 'long' }, // 🔹 Días completos
+                firstDay: 1,
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
                 events: [{
-                        title: 'Clase de Yoga',
-                        start: '2025-12-16T10:00:00',
-                        end: '2025-12-16T11:00:00'
+                        title: 'Yoga',
+                        start: '2025-12-18T10:00:00',
+                        end: '2025-12-18T11:00:00',
+                        extendedProps: {
+                            maxClients: 4,
+                            trainer: 'Ana'
+                        }
                     },
                     {
                         title: 'Crossfit',
-                        start: '2025-12-17T12:00:00',
-                        end: '2025-12-17T13:00:00'
+                        start: '2025-12-19T12:00:00',
+                        end: '2025-12-19T13:00:00',
+                        extendedProps: {
+                            maxClients: 4,
+                            trainer: 'Luis'
+                        }
                     }
-                ]
+                ],
+                eventContent: function(arg) {
+                    // Contenido en columna usando <div> y <br>
+                    return {
+                        html: `
+                <div style="display: flex; flex-direction: column; text-align: left;">
+                    <span><b>${arg.event.title}</b></span>
+                    <span>Entrenador: ${arg.event.extendedProps.trainer}</span>
+                    <span>Max Clientes: ${arg.event.extendedProps.maxClients}</span>
+                </div>
+            `
+                    };
+                }
             });
+
+
 
             calendar.render();
         });
