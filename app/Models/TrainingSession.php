@@ -15,7 +15,12 @@ class TrainingSession extends Model
         'trainer_id',
         'start_time',
         'end_time',
-        'max_clients',
+        'max_clients'
+    ];
+
+    protected $casts = [
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
 
     public function trainer()
@@ -25,6 +30,6 @@ class TrainingSession extends Model
 
     public function reservations()
     {
-        return $this->hasMany(Reservation::class);
+        return $this->hasMany(Reservation::class, 'training_session_id');
     }
 }

@@ -121,53 +121,86 @@
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
 
+            // Traemos las sesiones desde PHP
+            var sessions = @json($sessions);
+            // Convertimos las sesiones al formato de FullCalendar
+            var events = sessions.map(function(session) {
+                return {
+                    id: session.id,
+                    title: session.title,
+                    start: session.start_time,
+                    end: session.end_time,
+                    extendedProps: {
+                        maxClients: session.max_clients,
+                        trainer: session.trainer,
+                        reservationsCount: session.reservationsCount,
+                        sessionId: session.id
+                    }
+                };
+            });
+
+
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 locale: 'es',
                 initialView: 'dayGridMonth',
-                firstDay: 1,
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-                events: [{
-                        title: 'Yoga',
-                        start: '2025-12-18T10:00:00',
-                        end: '2025-12-18T11:00:00',
-                        extendedProps: {
-                            maxClients: 4,
-                            trainer: 'Ana'
-                        }
-                    },
-                    {
-                        title: 'Crossfit',
-                        start: '2025-12-19T12:00:00',
-                        end: '2025-12-19T13:00:00',
-                        extendedProps: {
-                            maxClients: 4,
-                            trainer: 'Luis'
-                        }
-                    }
-                ],
+                events: events,
                 eventContent: function(arg) {
-                    // Contenido en columna usando <div> y <br>
+                    // Solo hora en formato HH:MM
+                    let start = arg.event.start.toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    let end = arg.event.end ? arg.event.end.toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }) : '';
+                    let slots = arg.event.extendedProps.reservationsCount + '/' + arg.event.extendedProps.maxClients;
+
                     return {
                         html: `
-                <div style="display: flex; flex-direction: column; text-align: left;">
-                    <span><b>${arg.event.title}</b></span>
-                    <span>Entrenador: ${arg.event.extendedProps.trainer}</span>
-                    <span>Max Clientes: ${arg.event.extendedProps.maxClients}</span>
-                </div>
-            `
+            <div style="display: flex; flex-direction: column; text-align: left; line-height: 1.2;">
+                <span><b>${arg.event.title}</b></span>
+                <span><b>${start} - ${end}</b></span>
+                <span>Entrenador: ${arg.event.extendedProps.trainer}</span>
+                <span>Reservas: ${slots}</span>
+                <button style="margin-top:5px; font-size: 0.8em;" onclick="reserve(${arg.event.extendedProps.sessionId})">Apuntarse</button>
+            </div>
+        `
                     };
                 }
+
             });
-
-
 
             calendar.render();
         });
+
+
+        // Función para apuntarse a una sesión
+        function reserve(sessionId) {
+            if (!confirm('¿Quieres apuntarte a esta sesión?')) return;
+
+            fetch(`/sessions/${sessionId}/reserve`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message || 'Reserva realizada');
+                    location.reload();
+                })
+                .catch(err => alert('Error al reservar'));
+        }
     </script>
+
+
 
 
 </body>
