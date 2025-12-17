@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TrainingSession;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminTrainingSessionController extends Controller
@@ -10,7 +11,8 @@ class AdminTrainingSessionController extends Controller
     public function index()
     {
         $sessions = TrainingSession::orderBy('start_time')->get();
-        return view('admin.training', compact('sessions'));
+        $users = User::all(); // En futuro filtrar solo entrenadores
+        return view('admin.training', compact('sessions', 'users'));
     }
 
     public function store(Request $request)

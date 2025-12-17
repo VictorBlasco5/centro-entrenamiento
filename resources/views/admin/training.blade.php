@@ -16,7 +16,12 @@
                 @csrf
                 <input type="text" name="title" placeholder="Título" class="w-full border p-2" required>
                 <textarea name="description" placeholder="Descripción" class="w-full border p-2"></textarea>
-                <input type="number" name="trainer_id" placeholder="ID entrenador" class="w-full border p-2" required>
+                <select name="trainer_id" class="w-full border p-2" required>
+                    <option value="" disabled selected>Selecciona un entrenador</option>
+                    @foreach($users as $user)
+                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @endforeach
+                </select>
                 <input type="datetime-local" name="start_time" class="w-full border p-2" required>
                 <input type="datetime-local" name="end_time" class="w-full border p-2" required>
                 <input type="number" name="max_clients" placeholder="Plazas máximas" class="w-full border p-2" required>
@@ -64,13 +69,19 @@
                             disabled
                             form="form-{{ $session->id }}"
                             class="border p-1 w-full editable"></td>
-                            
-                    <td><input type="text"
-                            name="trainer_id"
-                            value="{{ $session->trainer_id }}"
+                    <td>
+                        <select name="trainer_id"
                             disabled
                             form="form-{{ $session->id }}"
-                            class="border p-1 w-full editable"></td>
+                            class="border p-1 w-full editable">
+                            @foreach($users as $user)
+                            <option value="{{ $user->id }}"
+                                {{ $user->id == $session->trainer_id ? 'selected' : '' }}>
+                                {{ $user->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </td>
 
                     <td class="p-2 border">
                         <input type="datetime-local"
