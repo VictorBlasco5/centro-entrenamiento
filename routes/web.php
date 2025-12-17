@@ -4,6 +4,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\AdminTrainingSessionController;
 
 
 Route::get('/', function () {
@@ -22,13 +23,16 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware(['auth'])->group(function () {
-Route::post('sessions/{session}/reserve', [ClientController::class, 'reserve'])->name('sessions.reserve');
-Route::get('dashboard', [ClientController::class, 'dashboard'])->name('dashboard');
-
+    Route::post('sessions/{session}/reserve', [ClientController::class, 'reserve'])->name('sessions.reserve');
+    Route::get('dashboard', [ClientController::class, 'dashboard'])->name('dashboard');
 });
 
 
+//ADMIN
+Route::resource('training', AdminTrainingSessionController::class)
+    ->middleware(['auth', 'verified'])
+    ->parameters(['training' => 'session']);
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
