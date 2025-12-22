@@ -2,36 +2,42 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\AdminTrainingSessionController;
+use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\RoleMiddleware;
+use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Rutas de cliente autenticado
+Route::middleware([Authenticate::class])->group(function () {
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Dashboard principal del cliente
+    Route::get('/dashboard', [ClientController::class, 'dashboard'])
+        ->name('dashboard');
+
+    // Perfil del usuario
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
+
+    // Reservas de sesiones
+    Route::post('/sessions/{session}/reserve', [ClientController::class, 'reserve'])
+        ->name('sessions.reserve');
 });
 
-
-Route::middleware(['auth'])->group(function () {
-    Route::post('sessions/{session}/reserve', [ClientController::class, 'reserve'])->name('sessions.reserve');
-    Route::get('dashboard', [ClientController::class, 'dashboard'])->name('dashboard');
-});
-
-
-//ADMIN
-Route::resource('training', AdminTrainingSessionController::class)
-    ->middleware(['auth', 'verified'])
-    ->parameters(['training' => 'session']);
+// Rutas de administración protegidas por rol 'admin'
+Route::middleware([Authenticate::class, RoleMiddleware::class . ':admin'])
+    ->group(function () {
+        Route::resource('training', AdminTrainingSessionController::class)
+            ->parameters(['training' => 'session']);
+    });
 
 
 
