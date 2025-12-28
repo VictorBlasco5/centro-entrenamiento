@@ -4,7 +4,6 @@
     }
 
     .navbar-container {
-        width: 100%;
         padding: 16px 20px;
         display: flex;
         justify-content: center;
