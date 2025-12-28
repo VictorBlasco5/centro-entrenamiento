@@ -16,6 +16,10 @@ Route::get('/trainers', function () {
     return view('trainers');
 });
 
+Route::get('/contact', function () {
+    return view('contact');
+});
+
 // Rutas de cliente autenticado
 Route::middleware([Authenticate::class])->group(function () {
 
