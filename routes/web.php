@@ -12,6 +12,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/trainers', function () {
+    return view('trainers');
+});
+
 // Rutas de cliente autenticado
 Route::middleware([Authenticate::class])->group(function () {
 

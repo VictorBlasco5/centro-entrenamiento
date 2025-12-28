@@ -52,7 +52,7 @@
             <a href="" class="btn btn-link">
                 Contacto
             </a>
-            <a href="" class="btn btn-link">
+            <a href="{{ url('/trainers') }}" class="btn btn-link">
                 Entrenadores
             </a>
             <a class="navbar-logo">
