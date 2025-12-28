@@ -48,7 +48,7 @@
             <a href="{{ url('/') }}" class="btn btn-link">
                 Inicio
             </a>
-            <a href="" class="btn btn-link">
+            <a href="{{ url('/contact') }}" class="btn btn-link">
                 Contacto
             </a>
             <a href="{{ url('/trainers') }}" class="btn btn-link">
