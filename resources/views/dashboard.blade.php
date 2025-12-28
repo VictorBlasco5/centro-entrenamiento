@@ -13,18 +13,6 @@
             padding: 0;
         }
 
-        header {
-            background-color: #000000ff;
-            color: white;
-            padding: 20px;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-            display: inline-block;
-        }
-
         nav {
             float: right;
         }
@@ -97,10 +85,7 @@
 
 <body>
     <header>
-        <h1>Ummah Athletes</h1>
-        <nav>
-            <a href="{{ route('profile.edit') }}">Perfil</a>
-        </nav>
+        @include('layouts.navigation')
     </header>
 
     <main>

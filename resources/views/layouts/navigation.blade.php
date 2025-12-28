@@ -23,11 +23,6 @@
         gap: 12px;
     }
 
-    .navbar-user {
-        font-size: 14px;
-        color: #ffffffff;
-    }
-
     .btn {
         text-decoration: none;
         font-size: 14px;
@@ -56,26 +51,7 @@
 <header class="navbar">
     <div class="navbar-container">
         <nav class="navbar-links">
-            @auth
-            <span class="navbar-user">
-                Hola, {{ Auth::user()->name }}
-            </span>
-
-            <a href="{{ route('dashboard') }}" class="btn btn-primary">
-                Dashboard
-            </a>
-
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="btn btn-link">
-                    Logout
-                </button>
-            </form>
-            @else
-            <a href="{{ url('/') }}" class="navbar-logo">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="navbar-logo">
-            </a>
-            <a href="" class="btn btn-link">
+            <a href="{{ url('/') }}" class="btn btn-link">
                 Inicio
             </a>
             <a href="" class="btn btn-link">
@@ -84,7 +60,22 @@
             <a href="" class="btn btn-link">
                 Entrenadores
             </a>
+            <a class="navbar-logo">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="navbar-logo">
+            </a>
+            @auth
+            <a href="{{ route('dashboard') }}" class="btn btn-primary">
+                Calendario
+            </a>
+            <a href="{{ route('profile.edit') }}">Perfil</a>
 
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="btn btn-link">
+                    Logout
+                </button>
+            </form>
+            @else
             <a href="{{ route('login') }}" class="btn btn-link">
                 Login
             </a>
