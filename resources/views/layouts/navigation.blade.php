@@ -32,11 +32,6 @@
         border: none;
     }
 
-    .btn-primary {
-        background-color: #111;
-        color: #fff;
-    }
-
     .btn-link {
         background: none;
         color: #ffffffff;
@@ -64,10 +59,12 @@
                 <img src="{{ asset('images/logo.png') }}" alt="Logo" class="navbar-logo">
             </a>
             @auth
-            <a href="{{ route('dashboard') }}" class="btn btn-primary">
+            <a href="{{ route('dashboard') }}" class="btn btn-link">
                 Calendario
             </a>
-            <a href="{{ route('profile.edit') }}">Perfil</a>
+            <a href="{{ route('profile.edit') }}" class="btn btn-link">
+                Perfil
+            </a>
 
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -77,12 +74,12 @@
             </form>
             @else
             <a href="{{ route('login') }}" class="btn btn-link">
-                Login
+                Iniciar sesión
             </a>
 
             @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="btn btn-primary">
-                Register
+            <a href="{{ route('register') }}" class="btn btn-link">
+                Registro
             </a>
             @endif
             @endauth
