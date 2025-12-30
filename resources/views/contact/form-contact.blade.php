@@ -98,6 +98,14 @@
     .btn-contact {
         width: 150px;
         margin: 10px 10px 10px 10px;
+        background-color: black;
+        color: white;
+        border-radius: 0;
+        border: 1px solid #373737a4; 
+    }
+
+    .btn-contact:hover {
+        background-color: #373737a4;
     }
 
     .street a,
