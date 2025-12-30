@@ -1,6 +1,7 @@
 <style>
     body {
         margin: 0;
+        font-family: var(--font-jost-regular);
     }
 
     .img-home {
@@ -18,6 +19,7 @@
         font-size: 60px;
         color: white;
         margin-top: 2em;
+        font-weight: bold;
     }
 
     .subtitle-banner-home {

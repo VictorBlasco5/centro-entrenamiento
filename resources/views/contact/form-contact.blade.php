@@ -1,6 +1,7 @@
 <style>
     body {
         margin: 0;
+        font-family: var(--font-jost-regular);
     }
 
     .container-contact {
@@ -47,13 +48,16 @@
         color: white;
         display: flex;
         justify-content: flex-start;
+        font-size: 50px;
+        font-weight: bold;
     }
 
     .input-name {
         width: 100%;
         height: 40px;
-        margin: 10px 10px 10px 10px;
+        margin: 10px 0px 10px 0px;
         border: none;
+        font-size: 12px;
     }
 
     .input-name:focus {
@@ -63,19 +67,22 @@
     .input-name::placeholder {
         color: black;
         opacity: 1;
+        font-size: 12px;
     }
 
     .text-contact {
         width: 100%;
         height: 80px;
-        margin: 10px 10px 10px 10px;
+        margin: 10px 0px 10px 0px;
         resize: none;
         border: none;
+        font-size: 12px;
     }
 
     .text-contact::placeholder {
         color: black;
         opacity: 1;
+        font-size: 12px;
     }
 
     .text-contact:focus {

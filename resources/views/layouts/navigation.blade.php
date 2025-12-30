@@ -1,6 +1,7 @@
 <style>
     .navbar {
         background-color: #000000ff;
+        font-family: var(--font-jost-regular);
     }
 
     .navbar-container {
