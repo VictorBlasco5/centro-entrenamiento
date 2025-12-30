@@ -111,18 +111,68 @@
         align-items: center;
         gap: 0.5em;
     }
+
+    .toast {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #ffffffff;
+        color: black;
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s, transform 0.5s;
+        z-index: 1000;
+    }
+
+    .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
 </style>
 
 <section class="container-contact">
     <div class="subcontainer-contact">
         <div class="left-contact">
+
             <h1>CONTACTO</h1>
-            <input class="input-name" type="text" placeholder="Nombre">
-            <input class="input-name" type="text" placeholder="Email">
-            <textarea class="text-contact" name="" id="" placeholder="Deja tu mensaje"></textarea>
-            <div class="cont-button-contact">
-                <button class="btn btn-contact">Enviar</button>
+
+            <form action="{{ route('contact.store') }}" method="POST">
+                @csrf
+
+                <input
+                    class="input-name"
+                    type="text"
+                    name="nombre"
+                    placeholder="Nombre"
+                    required>
+
+                <input
+                    class="input-name"
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    required>
+
+                <textarea
+                    class="text-contact"
+                    name="mensaje"
+                    placeholder="Deja tu mensaje"
+                    required></textarea>
+
+                <div class="cont-button-contact">
+                    <button type="submit" class="btn btn-contact">
+                        Enviar
+                    </button>
+                </div>
+            </form>
+            @if(session('success'))
+            <div id="toast" class="toast">
+                {{ session('success') }}
             </div>
+            @endif
         </div>
         <div class="right-contact">
             <div class="street">
@@ -140,7 +190,7 @@
             </div>
             <div class="email">
                 <i class="fa-solid fa-envelope"></i>
-                <a href="mailto:info@contacto.com">info@contacto.com</a>
+                <a href="mailto:victor.blasco.17@gmail.com">info@contacto.com</a>
             </div>
             <div class="hour">
                 <i class="fa-solid fa-clock"></i>
@@ -150,3 +200,16 @@
         </div>
     </div>
 </section>
+
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const toast = document.getElementById('toast');
+        if (toast) {
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    });
+</script>

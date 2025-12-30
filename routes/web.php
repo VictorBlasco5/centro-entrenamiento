@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminTrainingSessionController;
+use App\Http\Controllers\ContactController;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,7 @@ Route::get('/trainers', function () {
 Route::get('/contact', function () {
     return view('contact');
 });
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 // Rutas de cliente autenticado
 Route::middleware([Authenticate::class])->group(function () {
