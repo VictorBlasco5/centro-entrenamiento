@@ -19,6 +19,7 @@
 
     <main>
         @include('home.transforma')
+        @include('home.history')
     </main>
 
 
