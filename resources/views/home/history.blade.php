@@ -90,6 +90,27 @@
         flex-direction: column;
         align-items: flex-end;
     }
+
+
+
+    .card-history {
+        opacity: 0;
+        transform: translateX(0) scale(0.95);
+        transition: opacity 1.2s ease, transform 1.2s ease;
+    }
+
+    .card-history.from-left {
+        transform: translateX(-150px) scale(0.95);
+    }
+
+    .card-history.from-right {
+        transform: translateX(150px) scale(0.95);
+    }
+
+    .card-history.show {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
 </style>
 
 <section class="container-history">
@@ -144,3 +165,44 @@
         </div>
     </div>
 </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const cards = Array.from(document.querySelectorAll(".card-history"));
+
+    // Asignamos zigzag
+    cards.forEach((card, index) => {
+        card.classList.add(index % 2 === 0 ? "from-left" : "from-right");
+    });
+
+    let visibleCards = [];
+
+    const observer = new IntersectionObserver(
+        entries => {
+            entries.forEach(entry => {
+                const card = entry.target;
+                const index = cards.indexOf(card);
+
+                if (entry.isIntersecting) {
+                    // Al bajar: añadir a visibleCards si no estaba
+                    if (!visibleCards.includes(card)) {
+                        visibleCards.push(card);
+                        card.style.transitionDelay = `${index * 0.2}s`;
+                        card.classList.add("show");
+                    }
+                } else {
+                    // Al subir: quitar solo la última de visibleCards
+                    const lastVisible = visibleCards[visibleCards.length - 1];
+                    if (card === lastVisible) {
+                        lastVisible.classList.remove("show");
+                        visibleCards.pop();
+                    }
+                }
+            });
+        },
+        { threshold: 0.2 }
+    );
+
+    cards.forEach(card => observer.observe(card));
+});
+</script>
