@@ -1,6 +1,7 @@
 <style>
     body {
         margin: 0;
+        font-family: var(--font-jost-regular);
     }
 
     .container-trainers {
