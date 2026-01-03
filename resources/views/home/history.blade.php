@@ -96,7 +96,6 @@
     .card-history {
         opacity: 0;
         transform: translateX(0) scale(0.95);
-        transition: opacity 1.2s ease, transform 1.2s ease;
     }
 
     .card-history.from-left {
@@ -167,42 +166,64 @@
 </section>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const cards = Array.from(document.querySelectorAll(".card-history"));
+    document.addEventListener("DOMContentLoaded", () => {
+        const cards = Array.from(document.querySelectorAll(".card-history"));
 
-    // Asignamos zigzag
-    cards.forEach((card, index) => {
-        card.classList.add(index % 2 === 0 ? "from-left" : "from-right");
-    });
+        const offsetX = 140;
+        const startFactor = 0.95;
+        const endFactor = 0.30;
+        const minOpacity = 0;
+        const maxScale = 1;
+        const minScale = 0.95;
 
-    let visibleCards = [];
+        cards.forEach((card, i) => {
+            card.classList.add(i % 2 === 0 ? "from-left" : "from-right");
+        });
 
-    const observer = new IntersectionObserver(
-        entries => {
-            entries.forEach(entry => {
-                const card = entry.target;
-                const index = cards.indexOf(card);
+        const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+        const smoothstep = t => t * t * (3 - 2 * t);
 
-                if (entry.isIntersecting) {
-                    // Al bajar: añadir a visibleCards si no estaba
-                    if (!visibleCards.includes(card)) {
-                        visibleCards.push(card);
-                        card.style.transitionDelay = `${index * 0.2}s`;
-                        card.classList.add("show");
-                    }
-                } else {
-                    // Al subir: quitar solo la última de visibleCards
-                    const lastVisible = visibleCards[visibleCards.length - 1];
-                    if (card === lastVisible) {
-                        lastVisible.classList.remove("show");
-                        visibleCards.pop();
-                    }
-                }
+        let ticking = false;
+        const updateAll = () => {
+            const vh = window.innerHeight;
+            const startY = vh * startFactor;
+            const endY = vh * endFactor;
+            const range = startY - endY || 1;
+
+            cards.forEach((card, index) => {
+                const rect = card.getBoundingClientRect();
+                const top = rect.top;
+
+                let progress = (startY - top) / range;
+                progress = clamp(progress, 0, 1);
+
+                const eased = smoothstep(progress);
+                const isLeft = index % 2 === 0;
+                const sign = isLeft ? -1 : 1;
+
+                const translateX = sign * (1 - eased) * offsetX;
+                const scale = minScale + (maxScale - minScale) * eased;
+                const opacity = minOpacity + (1 - minOpacity) * eased;
+
+                card.style.transform = `translateX(${translateX}px) scale(${scale})`;
+                card.style.opacity = `${opacity}`;
+                card.style.pointerEvents = (progress > 0.03) ? "auto" : "none";
             });
-        },
-        { threshold: 0.2 }
-    );
 
-    cards.forEach(card => observer.observe(card));
-});
+            ticking = false;
+        };
+
+        const onScroll = () => {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(updateAll);
+            }
+        };
+
+        updateAll();
+        window.addEventListener("scroll", onScroll, {
+            passive: true
+        });
+        window.addEventListener("resize", onScroll);
+    });
 </script>
