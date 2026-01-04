@@ -290,8 +290,6 @@
                             html: `
                     <div class="event-content week-event">
                         <span><b>${props.sessionType}</b></span>
-                        <span>Reservas: ${slots}</span>
-                        <button class="btn-reserve" onclick="reserve(${props.sessionId})">Apuntarme</button>
                     </div>
                     `
                         };
