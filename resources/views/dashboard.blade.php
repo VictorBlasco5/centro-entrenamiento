@@ -66,9 +66,17 @@
             background-color: #4c4c4cff;
         }
 
+        .fc-event {
+            cursor: pointer;
+        }
+
         /* evento por dia */
         .fc-event:hover {
             background-color: #222222 !important;
+        }
+        /* Número del día clicable */
+        .fc-daygrid-day-number {
+            cursor: pointer;
         }
 
         /* botones navegación calendario, flechas + mes, semana y dia */
@@ -238,6 +246,18 @@
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
                 events: events,
+
+                eventClick: function(info) {
+                    info.jsEvent.preventDefault();
+
+                    calendar.gotoDate(info.event.start);
+                    calendar.changeView('timeGridDay');
+                },
+
+                dateClick: function(info) {
+                    calendar.gotoDate(info.date);
+                    calendar.changeView('timeGridDay');
+                },
 
                 // Contenido dinámico según vista
                 eventContent: function(arg) {
