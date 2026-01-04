@@ -6,55 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Centro de Entrenamiento</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3f4f6;
+        .container-calendar {
+            background-color: #171717;
+            font-family: var(--font-jost-regular);
+        }
+
+        .banner-calendar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
             margin: 0;
-            padding: 0;
         }
 
-        nav {
-            float: right;
-        }
-
-        nav a {
+        .banner-calendar h2 {
+            background-color: #171717;
             color: white;
-            margin-left: 20px;
-            text-decoration: none;
-            font-weight: bold;
+            font-size: 40px;
+            margin: 0;
         }
 
-        nav a:hover {
-            text-decoration: underline;
-        }
-
-        main {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        main h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        main p {
-            font-size: 18px;
-            color: #555;
-            margin-bottom: 30px;
-        }
-
-        main a {
-            text-transform: capitalize;
-            color: black;
-            padding: 12px 30px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        main a:hover {
-            background-color: #484848ff;
+        .banner-calendar p {
+            background-color: #171717;
+            color: white;
+            font-size: 14px;
+            margin: 0;
         }
 
         footer {
@@ -69,9 +45,104 @@
         #calendar {
             max-width: 1100px;
             margin: 50px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 0px;
+            background-color: #171717;
+            padding: 15px;
+            color: white;
+        }
+
+        /* Cambiar color de eventos */
+        .fc-event {
+            background-color: #222222;
+            color: white;
+        }
+
+        .btn-reserve {
+            width: 150px;
+            background-color: #222222;
+            border: 1px solid #4c4c4c;
+        }
+
+        .btn-reserve:hover {
+            background-color: #4c4c4cff;
+        }
+
+        /* evento por dia */
+        .fc-event:hover {
+            background-color: #222222 !important;
+        }
+
+        /* botones navegación calendario, flechas + mes, semana y dia */
+        .fc-header-toolbar .fc-toolbar-chunk button {
+            background-color: #222222;
+            border: none;
+        }
+
+        .fc-header-toolbar .fc-toolbar-chunk button:hover {
+            background-color: #4c4c4cff;
+            border: none;
+        }
+
+        .fc-header-toolbar .fc-toolbar-chunk button:focus {
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: #4c4c4cff !important;
+        }
+
+        /* Botón activo (Mes / Semana / Día) */
+        .fc .fc-button.fc-button-active {
+            background-color: #4c4c4cff !important;
+        }
+
+        /* Botón Hoy*/
+        .fc .fc-today-button {
+            background-color: #222222 !important;
+            border: none !important;
+        }
+
+        /* Evitar azul en vista semana / día */
+        .fc .fc-timegrid-event,
+        .fc .fc-timegrid-event:active,
+        .fc .fc-timegrid-event.fc-event-selected {
+            background-color: #222222 !important;
+            border-color: #222222 !important;
+            box-shadow: none !important;
+        }
+
+        /* Fondo del dia en vista MES */
+        .fc .fc-daygrid-day.fc-day-today {
+            background-color: #2a2a2a !important;
+        }
+
+        /* Fondo del dia en vista SEMANA / DÍA */
+        .fc .fc-timegrid-col.fc-day-today {
+            background-color: #2a2a2a !important;
+        }
+
+        .event-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* Vista DÍA: eventos en fila */
+        .fc-timeGridDay-view .fc-event-main {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+            white-space: normal;
+        }
+
+        /* Evitar que el texto se comprima */
+        .fc-timeGridDay-view .fc-event-title,
+        .fc-timeGridDay-view .fc-event-time {
+            white-space: normal;
+        }
+
+        /* Permitir que el evento crezca en altura */
+        .fc-timeGridDay-view .fc-timegrid-event {
+            height: auto !important;
+            min-height: 60px;
         }
     </style>
 
@@ -79,6 +150,8 @@
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/es.min.js"></script>
+    @vite('resources/css/app.css')
+
 
 
 </head>
@@ -88,13 +161,17 @@
         @include('layouts.navigation')
     </header>
 
-    <main>
-        <h2>Bienvenido a tu centro de entrenamiento</h2>
-        <p>Reserva tus clases, sigue tus entrenamientos y gestiona tu progreso de forma fácil y rápida.</p>
+    <section class="container-calendar">
+        <div class="banner-calendar">
+
+            <h2>Bienvenido a tu centro de entrenamiento</h2>
+            <p>Reserva tus clases, sigue tus entrenamientos y gestiona tu progreso de forma fácil y rápida.</p>
+        </div>
 
         <!-- Calendario integrado -->
         <div id="calendar"></div>
-    </main>
+    </section>
+
 
     <footer>
         &copy; {{ date('Y') }} Centro de Entrenamiento. Todos los derechos reservados.
@@ -148,14 +225,14 @@
 
                     return {
                         html: `
-            <div style="display: flex; flex-direction: column; text-align: left; line-height: 1.2;">
-                <span><b>${arg.event.title}</b></span>
-                <span><b>${start} - ${end}</b></span>
-                <span>Entrenador: ${arg.event.extendedProps.trainer}</span>
-                <span>Reservas: ${slots}</span>
-                <button style="margin-top:5px; font-size: 0.8em;" onclick="reserve(${arg.event.extendedProps.sessionId})">Apuntarse</button>
-            </div>
-        `
+                        <div class="event-content">
+                        <span><b>${arg.event.title}</b></span>
+                        <span><b>${start} - ${end}</b></span>
+                        <span>Entrenador: ${arg.event.extendedProps.trainer}</span>
+                        <span>Reservas: ${slots}</span>
+                        <button class="btn-reserve" onclick="reserve(${arg.event.extendedProps.sessionId})">Apuntarme</button>
+                        </div>
+                        `
                     };
                 }
 
@@ -184,10 +261,6 @@
                 .catch(err => alert('Error al reservar'));
         }
     </script>
-
-
-
-
 </body>
 
 </html>
