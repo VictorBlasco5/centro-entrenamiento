@@ -41,42 +41,13 @@
             margin-top: 40px;
         }
 
-        /* Estilos para FullCalendar */
+        /* ESTILOS FULLCALENDAR */
         #calendar {
             max-width: 1100px;
             margin: 50px auto;
             background-color: #171717;
             padding: 15px;
             color: white;
-        }
-
-        /* Cambiar color de eventos */
-        .fc-daygrid-event-harness {
-            background-color: #222222;
-            color: white;
-        }
-
-        .btn-reserve {
-            width: 150px;
-            background-color: #222222;
-            border: 1px solid #4c4c4c;
-        }
-
-        .btn-reserve:hover {
-            background-color: #4c4c4cff;
-        }
-
-        .fc-event {
-            cursor: pointer;
-        }
-
-        /* evento por dia */
-        .fc-event:hover {
-            background-color: #222222 !important;
-        }
-        /* Número del día clicable */
-        .fc-daygrid-day-number {
-            cursor: pointer;
         }
 
         /* botones navegación calendario, flechas + mes, semana y dia */
@@ -96,7 +67,7 @@
             background-color: #4c4c4cff !important;
         }
 
-        /* Botón activo (Mes / Semana / Día) */
+                /* Botón activo (Mes / Semana / Día) */
         .fc .fc-button.fc-button-active {
             background-color: #4c4c4cff !important;
         }
@@ -122,33 +93,70 @@
             background-color: #2a2a2a !important;
         }
 
-        .event-content {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+        /* Quitar cuadrícula */
+        .fc-timegrid-slot {
+            border-top: none !important;
+        }
+
+
+
+        /*CALENDARIO MES */
+        
+        .fc-event {
+            cursor: pointer;
+        }
+
+        .fc-event:hover {
+            background-color: #222222 !important;
+        }
+        
+        /* Cambiar color de eventos */
+        .fc-daygrid-event-harness {
+            background-color: #222222;
+            color: white;
+        }
+
+        /* Número del día clicable */
+        .fc-daygrid-day-number {
+            cursor: pointer;
+        }
+
+        /* Quitar hora en vista MES */
+        .fc-daygrid-dot-event .fc-event-time {
+            display: none !important;
+        }
+
+        .fc-daygrid-event-dot {
+            display: none;
+        }
+
+
+
+        /*CALENDARIO SEMANA */
+
+
+
+        /*CALENDARIO DIA */
+
+        .btn-reserve {
+            width: 150px;
+            background-color: #222222;
+            border: 1px solid #4c4c4c;
+        }
+
+        .btn-reserve:hover {
+            background-color: #4c4c4cff;
         }
 
         /* Vista DÍA: eventos en fila */
         .fc-timeGridDay-view .fc-event-main {
             display: flex;
-            flex-direction: row;
             align-items: center;
-            gap: 12px;
-            white-space: normal;
         }
 
-        /* Vista Día → fila */
         .fc-timeGridDay-view .event-content {
             flex-direction: row;
             align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        /* Permitir que el evento crezca en altura */
-        .fc-timeGridDay-view .fc-timegrid-event {
-            height: auto !important;
-            min-height: 60px;
         }
 
         /* Botón Apuntarse */
@@ -163,19 +171,6 @@
             background-color: #4c4c4cff;
         }
 
-        /* Quitar cuadrícula */
-        .fc-timegrid-slot {
-            border-top: none !important;
-        }
-
-        .fc-daygrid-event-dot {
-            display: none;
-        }
-
-        /* Quitar hora en vista MES */
-        .fc-daygrid-dot-event .fc-event-time {
-            display: none !important;
-        }
     </style>
 
     <!-- FullCalendar CDN -->
