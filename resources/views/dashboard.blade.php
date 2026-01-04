@@ -51,7 +51,7 @@
         }
 
         /* Cambiar color de eventos */
-        .fc-event {
+        .fc-daygrid-event-harness {
             background-color: #222222;
             color: white;
         }
@@ -108,12 +108,8 @@
             box-shadow: none !important;
         }
 
-        /* Fondo del dia en vista MES */
-        .fc .fc-daygrid-day.fc-day-today {
-            background-color: #2a2a2a !important;
-        }
-
-        /* Fondo del dia en vista SEMANA / DÍA */
+        /* Fondo del dia en vista MES /SEMANA / DÍA */
+        .fc .fc-daygrid-day.fc-day-today,
         .fc .fc-timegrid-col.fc-day-today {
             background-color: #2a2a2a !important;
         }
@@ -133,16 +129,44 @@
             white-space: normal;
         }
 
-        /* Evitar que el texto se comprima */
-        .fc-timeGridDay-view .fc-event-title,
-        .fc-timeGridDay-view .fc-event-time {
-            white-space: normal;
+        /* Vista Día → fila */
+        .fc-timeGridDay-view .event-content {
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         /* Permitir que el evento crezca en altura */
         .fc-timeGridDay-view .fc-timegrid-event {
             height: auto !important;
             min-height: 60px;
+        }
+
+        /* Botón Apuntarse */
+        .btn-reserve {
+            background-color: #222222;
+            color: white;
+            border: 1px solid #4c4c4c;
+            padding: 4px 10px;
+        }
+
+        .btn-reserve:hover {
+            background-color: #4c4c4cff;
+        }
+
+        /* Quitar cuadrícula */
+        .fc-timegrid-slot {
+            border-top: none !important;
+        }
+
+        .fc-daygrid-event-dot {
+            display: none;
+        }
+
+        /* Quitar hora en vista MES */
+        .fc-daygrid-dot-event .fc-event-time {
+            display: none !important;
         }
     </style>
 
@@ -196,23 +220,30 @@
                         maxClients: session.max_clients,
                         trainer: session.trainer,
                         reservationsCount: session.reservationsCount,
-                        sessionId: session.id
+                        sessionId: session.id,
+                        sessionType: session.title
                     }
                 };
             });
 
-
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 locale: 'es',
                 initialView: 'dayGridMonth',
+                allDaySlot: false,
+                slotMinTime: '08:00:00',
+                slotMaxTime: '23:00:00',
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
                 events: events,
+
+                // Contenido dinámico según vista
                 eventContent: function(arg) {
-                    // Solo hora en formato HH:MM
+                    const view = arg.view.type;
+                    const props = arg.event.extendedProps;
+
                     let start = arg.event.start.toLocaleTimeString([], {
                         hour: '2-digit',
                         minute: '2-digit'
@@ -221,21 +252,36 @@
                         hour: '2-digit',
                         minute: '2-digit'
                     }) : '';
-                    let slots = arg.event.extendedProps.reservationsCount + '/' + arg.event.extendedProps.maxClients;
+                    let slots = props.reservationsCount + '/' + props.maxClients;
 
-                    return {
-                        html: `
-                        <div class="event-content">
-                        <span><b>${arg.event.title}</b></span>
-                        <span><b>${start} - ${end}</b></span>
-                        <span>Entrenador: ${arg.event.extendedProps.trainer}</span>
+                    // VISTA SEMANA → tipo + reservas + botón
+                    if (view === 'timeGridWeek') {
+                        return {
+                            html: `
+                    <div class="event-content week-event">
+                        <span><b>${props.sessionType}</b></span>
                         <span>Reservas: ${slots}</span>
-                        <button class="btn-reserve" onclick="reserve(${arg.event.extendedProps.sessionId})">Apuntarme</button>
-                        </div>
-                        `
-                    };
-                }
+                        <button class="btn-reserve" onclick="reserve(${props.sessionId})">Apuntarme</button>
+                    </div>
+                    `
+                        };
+                    }
 
+                    // VISTA DÍA → toda la info
+                    if (view === 'timeGridDay') {
+                        return {
+                            html: `
+                    <div class="event-content day-event">
+                        <span><b>${props.sessionType}</b></span>
+                        <span>${start} - ${end}</span>
+                        <span>Entrenador: ${props.trainer}</span>
+                        <span>Reservas: ${slots}</span>
+                        <button class="btn-reserve" onclick="reserve(${props.sessionId})">Apuntarme</button>
+                    </div>
+                    `
+                        };
+                    }
+                },
             });
 
             calendar.render();
