@@ -153,10 +153,25 @@
             display: flex;
             align-items: center;
         }
-
+        
         .fc-timeGridDay-view .event-content {
+            display: flex;
             flex-direction: row;
             align-items: center;
+            gap: 16px;
+        }
+
+        /* Añadir un punto delante de cada elemento */
+        .fc-timeGridDay-view .event-content.day-event > *::before {
+            content: "•";
+            margin: 0 8px 0 0;
+            color: #ffffff;
+            font-size: 12px;
+        }
+
+        /* Quitar el punto del botón */
+        .fc-timeGridDay-view .event-content.day-event > button::before {
+            content: none;
         }
 
         /* Botón Apuntarse */
