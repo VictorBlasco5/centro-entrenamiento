@@ -18,6 +18,7 @@
 
     <main>
         @include('contact.form-contact')
+        @include('layouts.footer')
     </main>
 </body>
 

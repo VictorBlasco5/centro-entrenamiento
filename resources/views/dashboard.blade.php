@@ -33,13 +33,6 @@
             margin: 0;
         }
 
-        footer {
-            background-color: #222222;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-
         /* ESTILOS FULLCALENDAR */
         #calendar {
             max-width: 1100px;
@@ -223,7 +216,7 @@
 
 
     <footer>
-        &copy; {{ date('Y') }} Centro de Entrenamiento. Todos los derechos reservados.
+        @include('layouts.footer')
     </footer>
 
 

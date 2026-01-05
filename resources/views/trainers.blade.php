@@ -18,6 +18,7 @@
 
     <main>
         @include('trainers.cards')
+        @include('layouts.footer')
     </main>
 </body>
 
