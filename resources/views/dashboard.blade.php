@@ -34,17 +34,16 @@
         }
 
         footer {
-            background-color: #111827;
+            background-color: #222222;
             color: white;
             text-align: center;
             padding: 20px;
-            margin-top: 40px;
         }
 
         /* ESTILOS FULLCALENDAR */
         #calendar {
             max-width: 1100px;
-            margin: 50px auto;
+            margin: 0px auto;
             background-color: #171717;
             padding: 15px;
             color: white;
