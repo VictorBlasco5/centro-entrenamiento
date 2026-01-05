@@ -130,6 +130,10 @@
             display: none;
         }
 
+        /* Fondo oscuro para la fila de los días de la semana */
+        .fc .fc-col-header-cell {
+            background-color: #222222;
+        }
 
 
         /*CALENDARIO SEMANA */
@@ -184,6 +188,10 @@
 
         .btn-reserve:hover {
             background-color: #4c4c4cff;
+        }
+        
+        .fc-timegrid-axis {
+            background-color: #222222;
         }
 
     </style>
@@ -246,6 +254,7 @@
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 locale: 'es',
+                height: 'auto',
                 initialView: 'dayGridMonth',
                 allDaySlot: false,
                 slotMinTime: '08:00:00',
