@@ -1,5 +1,6 @@
 <style>
     .container-my-sessions {
+        min-height: 80vh;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -12,6 +13,7 @@
 
     .container-my-sessions h1 {
         font-size: 40px;
+        text-transform: uppercase;
     }
 
     .buttons-my-sessions {
@@ -44,7 +46,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 100%;
+        width: 80%;
         height: 80px;
         padding: 25px;
         background-color: #1E1F26;
@@ -63,7 +65,7 @@
         flex-direction: column;
         position: relative;
         padding-right: 25px;
-        width: 40%;
+        width: 60%;
         /* border: 1px solid blueviolet; */
     }
 
@@ -112,74 +114,40 @@
 </style>
 
 <section class="container-my-sessions">
-    <h1>MIS SESIONES DE ENERO</h1>
+    <h1>MIS SESIONES DE  {{ \Carbon\Carbon::now()->locale('es')->translatedFormat('F') }}</h1>
     <div class="buttons-my-sessions">
         <a>Ver calendario anual</a>
         <a>Historial completo </a>
     </div>
+    @forelse($sessions as $session)
     <div class="box-sessions">
         <div class="card-my-sessions">
             <div class="box-card-my-sessions">
                 <div class="date-my-sessions">
-                    <h5>Lunes 12 enero</h5>
-                    <p>12:00-13:00</p>
+                    <h5>{{ $session->start_time->translatedFormat('l d F') }}</h5>
+                    <p>
+                        {{ $session->start_time->format('H:i') }} -
+                        {{ $session->end_time->format('H:i') }}
+                    </p>
                 </div>
-                <div class="separator">-</div>
-                <div class="type-my-sessions">
-                    <h5>Boxeo</h5>
-                    <p>con Valeria</p>
-                </div>
-            </div>
-            <button>Cancelar</button>
-        </div>
-    </div>
 
-    <div class="box-sessions">
-        <div class="card-my-sessions">
-            <div class="box-card-my-sessions">
-                <div class="date-my-sessions">
-                    <h5>Jueves 15 enero</h5>
-                    <p>8:00-9:00</p>
-                </div>
                 <div class="separator">-</div>
+
                 <div class="type-my-sessions">
-                    <h5>Steps</h5>
-                    <p>con Conrado</p>
+                    <h5>{{ $session->title }}</h5>
+                    <p>con {{ $session->trainer->name ?? 'Sin asignar' }}</p>
                 </div>
             </div>
-            <button>Cancelar</button>
+
+            <form method="POST" action="{{ route('sessions.cancel', $session->id) }}">
+                @csrf
+                @method('DELETE')
+                <button type="submit">Cancelar</button>
+            </form>
+
         </div>
     </div>
-    <div class="box-sessions">
-        <div class="card-my-sessions">
-            <div class="box-card-my-sessions">
-                <div class="date-my-sessions">
-                    <h5>Martes 20 enero</h5>
-                    <p>10:00-11:00</p>
-                </div>
-                <div class="separator">-</div>
-                <div class="type-my-sessions">
-                    <h5>TRX</h5>
-                    <p>con Conrado</p>
-                </div>
-            </div>
-            <button>Cancelar</button>
-        </div>
-    </div>
-    <div class="box-sessions">
-        <div class="card-my-sessions">
-            <div class="box-card-my-sessions">
-                <div class="date-my-sessions">
-                    <h5>Miércoles 21 Septiembre</h5>
-                    <p>16:00-17:00</p>
-                </div>
-                <div class="separator">-</div>
-                <div class="type-my-sessions">
-                    <h5>CrossFit</h5>
-                    <p>con Javier</p>
-                </div>
-            </div>
-            <button>Cancelar</button>
-        </div>
-    </div>
+    @empty
+    <p>No estás apuntado a ninguna sesión.</p>
+    @endforelse
 </section>

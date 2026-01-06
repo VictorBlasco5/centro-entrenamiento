@@ -31,34 +31,64 @@ class ClientController extends Controller
 
 
     // Reservar una sesión
-public function reserve(Request $request, TrainingSession $session)
-{
-    $userId = Auth::id();
+    public function reserve(Request $request, TrainingSession $session)
+    {
+        $userId = Auth::id();
 
-    //Comprobar si el usuario ya está apuntado
-    $alreadyReserved = $session->reservations()
-        ->where('user_id', $userId)
-        ->exists();
+        //Comprobar si el usuario ya está apuntado
+        $alreadyReserved = $session->reservations()
+            ->where('user_id', $userId)
+            ->exists();
 
-    if ($alreadyReserved) {
-        return response()->json(['message' => 'Ya estás apuntado a esta sesión'], 400);
+        if ($alreadyReserved) {
+            return response()->json(['message' => 'Ya estás apuntado a esta sesión'], 400);
+        }
+
+        // Comprobar si quedan menos de 24h
+
+
+        //Comprobar si la sesión está llena
+        if ($session->reservations()->count() >= $session->max_clients) {
+            return response()->json(['message' => 'Sesión llena'], 400);
+        }
+
+        //Crear la reserva
+        Reservation::create([
+            'training_session_id' => $session->id,
+            'user_id' => $userId,
+        ]);
+
+        return response()->json(['message' => 'Reserva realizada con éxito']);
     }
 
-    // Comprobar si quedan menos de 24h
+    public function mySessions()
+    {
+        $user = Auth::user();
 
+        $sessions = TrainingSession::whereHas('reservations', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+            ->with('trainer')
+            ->orderBy('start_time', 'asc')
+            ->get();
 
-    //Comprobar si la sesión está llena
-    if ($session->reservations()->count() >= $session->max_clients) {
-        return response()->json(['message' => 'Sesión llena'], 400);
+        return view('sessions', compact('sessions'));
     }
 
-    //Crear la reserva
-    Reservation::create([
-        'training_session_id' => $session->id,
-        'user_id' => $userId,
-    ]);
+    public function cancel(TrainingSession $session)
+    {
+        $userId = Auth::id();
 
-    return response()->json(['message' => 'Reserva realizada con éxito']);
-}
+        $reservation = Reservation::where('training_session_id', $session->id)
+            ->where('user_id', $userId)
+            ->first();
 
+        if (!$reservation) {
+            return redirect()->back()->with('error', 'No estás apuntado a esta sesión');
+        }
+
+        $reservation->delete();
+
+        return redirect()->back()->with('success', 'Reserva cancelada');
+    }
 }

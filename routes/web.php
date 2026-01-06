@@ -17,9 +17,6 @@ Route::get('/trainers', function () {
     return view('trainers');
 });
 
-Route::get('/sessions', function () {
-    return view('sessions');
-});
 
 Route::get('/contact', function () {
     return view('contact');
@@ -44,6 +41,14 @@ Route::middleware([Authenticate::class])->group(function () {
     // Reservas de sesiones
     Route::post('/sessions/{session}/reserve', [ClientController::class, 'reserve'])
         ->name('sessions.reserve');
+
+    //Mis sesiones reservadas
+    Route::get('/sessions', [ClientController::class, 'mySessions'])
+        ->name('client.sessions');
+
+
+    Route::delete('/sessions/{session}/cancel', [ClientController::class, 'cancel'])
+        ->name('sessions.cancel');
 });
 
 // Rutas de administración protegidas por rol 'admin'
