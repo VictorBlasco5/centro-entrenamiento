@@ -17,6 +17,10 @@ Route::get('/trainers', function () {
     return view('trainers');
 });
 
+Route::get('/sessions', function () {
+    return view('sessions');
+});
+
 Route::get('/contact', function () {
     return view('contact');
 });

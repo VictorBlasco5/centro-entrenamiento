@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, user-scalable=yes">
+
+    @vite('resources/css/app.css')
+    <title>Mis sesiones</title>
+
+</head>
+
+
+<body>
+    <header>
+        @include('layouts.navigation')
+    </header>
+
+    <main>
+        @include('sessions.my-sessions')
+        @include('layouts.footer')
+    </main>
+</body>
+
+</html>
