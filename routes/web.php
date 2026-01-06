@@ -48,6 +48,11 @@ Route::middleware([Authenticate::class])->group(function () {
 
     Route::delete('/sessions/{session}/cancel', [ClientController::class, 'cancel'])
         ->name('sessions.cancel');
+    
+    // Historial completo de sesiones
+    Route::get('/sessions/history', [ClientController::class, 'allMySessions'])
+    ->name('sessions.history');
+
 });
 
 // Rutas de administración protegidas por rol 'admin'

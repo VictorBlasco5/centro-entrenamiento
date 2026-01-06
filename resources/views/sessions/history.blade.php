@@ -35,18 +35,19 @@
 
     .box-sessions {
         height: auto;
-        width: 80%;
+        width: 45%;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 5px 30px;
+        padding: 5px 10px;
+        border: 1px solid red;
     }
 
     .card-my-sessions {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 80%;
+        width: 100%;
         height: 80px;
         padding: 25px;
         background-color: #1E1F26;
@@ -56,7 +57,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 50%;
+        width: 100%;
         /* border: 1px solid green; */
     }
 
@@ -65,7 +66,7 @@
         flex-direction: column;
         position: relative;
         padding-right: 25px;
-        width: 60%;
+        width: 100%;
         /* border: 1px solid blueviolet; */
     }
 
@@ -117,7 +118,7 @@
     <h1>MIS SESIONES DE  {{ \Carbon\Carbon::now()->locale('es')->translatedFormat('F') }}</h1>
     <div class="buttons-my-sessions">
         <a>Ver calendario anual</a>
-        <a href="{{ route('sessions.history') }}">Historial completo </a>
+        <a href="{{ route('sessions') }}">Sesiones del mes </a>
     </div>
     @forelse($sessions as $session)
     <div class="box-sessions">
@@ -138,13 +139,6 @@
                     <p>con {{ $session->trainer->name ?? 'Sin asignar' }}</p>
                 </div>
             </div>
-
-            <form method="POST" action="{{ route('sessions.cancel', $session->id) }}">
-                @csrf
-                @method('DELETE')
-                <button type="submit">Cancelar</button>
-            </form>
-
         </div>
     </div>
     @empty

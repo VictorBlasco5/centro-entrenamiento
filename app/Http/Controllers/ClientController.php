@@ -79,6 +79,20 @@ class ClientController extends Controller
         return view('sessions', compact('sessions'));
     }
 
+        public function allMySessions()
+    {
+        $user = Auth::user();
+
+        $sessions = TrainingSession::whereHas('reservations', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+            ->with('trainer')
+            ->orderBy('start_time', 'asc')
+            ->get();
+
+        return view('history-sessions', compact('sessions'));
+    }
+
     public function cancel(TrainingSession $session)
     {
         $userId = Auth::id();
