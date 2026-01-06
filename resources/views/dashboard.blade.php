@@ -7,8 +7,22 @@
     <title>Centro de Entrenamiento</title>
     <style>
         .container-calendar {
-            background-color: #171717;
             font-family: var(--font-jost-regular);
+        }
+
+        .calendar-bg {
+            position: relative;
+            background-image: url('../images/calendar/gym_general_view.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .calendar-bg::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-color: rgba(58, 58, 58, 0.7);
+            z-index: 0;
         }
 
         .banner-calendar {
@@ -20,25 +34,29 @@
         }
 
         .banner-calendar h2 {
-            background-color: #171717;
             color: white;
             font-size: 40px;
             margin: 0;
         }
 
         .banner-calendar p {
-            background-color: #171717;
             color: white;
             font-size: 14px;
             margin: 0;
         }
 
+        .banner-calendar,
+        #calendar {
+            position: relative;
+            z-index: 1;
+            color: #fff;
+        }
+
         /* ESTILOS FULLCALENDAR */
         #calendar {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0px auto;
-            background-color: #171717;
-            padding: 15px;
+            padding: 30px;
             color: white;
         }
 
@@ -49,19 +67,19 @@
         }
 
         .fc-header-toolbar .fc-toolbar-chunk button:hover {
-            background-color: #4c4c4cff;
+            background-color: #d0d0d05d;
             border: none;
         }
 
         .fc-header-toolbar .fc-toolbar-chunk button:focus {
             outline: none !important;
             box-shadow: none !important;
-            background-color: #4c4c4cff !important;
+            background-color: #d0d0d05d !important;
         }
 
-                /* Botón activo (Mes / Semana / Día) */
+        /* Botón activo (Mes / Semana / Día) */
         .fc .fc-button.fc-button-active {
-            background-color: #4c4c4cff !important;
+            background-color: #d0d0d05d !important;
         }
 
         /* Botón Hoy*/
@@ -70,19 +88,11 @@
             border: none !important;
         }
 
-        /* Evitar azul en vista semana / día */
-        .fc .fc-timegrid-event,
-        .fc .fc-timegrid-event:active,
-        .fc .fc-timegrid-event.fc-event-selected {
-            background-color: #222222 !important;
-            border-color: #222222 !important;
-            box-shadow: none !important;
-        }
 
         /* Fondo del dia en vista MES /SEMANA / DÍA */
         .fc .fc-daygrid-day.fc-day-today,
         .fc .fc-timegrid-col.fc-day-today {
-            background-color: #2a2a2a !important;
+            background-color: #ffffff2d !important;
         }
 
         /* Quitar cuadrícula */
@@ -93,19 +103,19 @@
 
 
         /*CALENDARIO MES */
-        
+
         .fc-event {
             cursor: pointer;
         }
 
         .fc-event:hover {
-            background-color: #222222 !important;
+            background-color: transparent !important;
         }
-        
-        /* Cambiar color de eventos */
-        .fc-daygrid-event-harness {
-            background-color: #222222;
-            color: white;
+
+        .fc-daygrid-day-events {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 5px;
         }
 
         /* Número del día clicable */
@@ -113,9 +123,10 @@
             cursor: pointer;
         }
 
-        /* Quitar hora en vista MES */
-        .fc-daygrid-dot-event .fc-event-time {
-            display: none !important;
+        /* Añadir h en horas mes */
+        .fc-daygrid-event .fc-event-time::after {
+            content: "h";
+            font-size: 11px;
         }
 
         .fc-daygrid-event-dot {
@@ -127,29 +138,43 @@
             background-color: #222222;
         }
 
+        /* Añadir un punto antes de cada evento */
+        .fc-daygrid-day-events .fc-daygrid-event-harness {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .fc-daygrid-day-events .fc-daygrid-event-harness::before {
+            content: "•";
+            display: flex;
+            align-items: center;
+            margin-left: 4px;
+            margin-right: 4px;
+            font-size: 8px;
+        }
 
         /*CALENDARIO SEMANA */
 
+        /* Fondo en vista semana / día */
+        .fc .fc-timegrid-event,
+        .fc .fc-timegrid-event:active,
+        .fc .fc-timegrid-event.fc-event-selected {
+            background-color: #d0d0d05d !important;
+            border-color: #d0d0d05d !important;
+            box-shadow: none !important;
+        }
 
 
         /*CALENDARIO DIA */
-
-        .btn-reserve {
-            width: 150px;
-            background-color: #222222;
-            border: 1px solid #4c4c4c;
-        }
-
-        .btn-reserve:hover {
-            background-color: #4c4c4cff;
-        }
 
         /* Vista DÍA: eventos en fila */
         .fc-timeGridDay-view .fc-event-main {
             display: flex;
             align-items: center;
         }
-        
+
         .fc-timeGridDay-view .event-content {
             display: flex;
             flex-direction: row;
@@ -158,7 +183,7 @@
         }
 
         /* Añadir un punto delante de cada elemento */
-        .fc-timeGridDay-view .event-content.day-event > *::before {
+        .fc-timeGridDay-view .event-content.day-event>*::before {
             content: "•";
             margin: 0 8px 0 0;
             color: #ffffff;
@@ -166,7 +191,7 @@
         }
 
         /* Quitar el punto del botón */
-        .fc-timeGridDay-view .event-content.day-event > button::before {
+        .fc-timeGridDay-view .event-content.day-event>button::before {
             content: none;
         }
 
@@ -174,18 +199,17 @@
         .btn-reserve {
             background-color: #222222;
             color: white;
-            border: 1px solid #4c4c4c;
+            border: 1px solid #d0d0d05d;
             padding: 4px 10px;
         }
 
         .btn-reserve:hover {
-            background-color: #4c4c4cff;
+            background-color: #000000ff;
         }
-        
+
         .fc-timegrid-axis {
             background-color: #222222;
         }
-
     </style>
 
     <!-- FullCalendar CDN -->
@@ -204,14 +228,15 @@
     </header>
 
     <section class="container-calendar">
-        <div class="banner-calendar">
+        <div class="calendar-bg">
+            <div class="banner-calendar">
 
-            <h2>Bienvenido a tu centro de entrenamiento</h2>
-            <p>Reserva tus clases, sigue tus entrenamientos y gestiona tu progreso de forma fácil y rápida.</p>
+                <h2>Bienvenido a tu centro de entrenamiento</h2>
+                <p>Reserva tus clases, sigue tus entrenamientos y gestiona tu progreso de forma fácil y rápida.</p>
+            </div>
+            <!-- Calendario integrado -->
+            <div id="calendar"></div>
         </div>
-
-        <!-- Calendario integrado -->
-        <div id="calendar"></div>
     </section>
 
 
