@@ -49,11 +49,11 @@
             <a href="{{ url('/') }}" class="btn btn-link">
                 Inicio
             </a>
-            <a href="{{ url('/contact') }}" class="btn btn-link">
-                Contacto
-            </a>
             <a href="{{ url('/trainers') }}" class="btn btn-link">
                 Entrenadores
+            </a>
+            <a href="{{ url('/contact') }}" class="btn btn-link">
+                Contacto
             </a>
             <a class="navbar-logo">
                 <img src="{{ asset('images/logo.png') }}" alt="Logo" class="navbar-logo">
@@ -61,6 +61,9 @@
             @auth
             <a href="{{ route('dashboard') }}" class="btn btn-link">
                 Calendario
+            </a>
+            <a href="{{ route('sessions') }}" class="btn btn-link">
+                Mis sesiones
             </a>
             <a href="{{ route('profile.edit') }}" class="btn btn-link">
                 Perfil

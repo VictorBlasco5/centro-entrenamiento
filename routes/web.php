@@ -44,8 +44,7 @@ Route::middleware([Authenticate::class])->group(function () {
 
     //Mis sesiones reservadas
     Route::get('/sessions', [ClientController::class, 'mySessions'])
-        ->name('client.sessions');
-
+        ->name('sessions');
 
     Route::delete('/sessions/{session}/cancel', [ClientController::class, 'cancel'])
         ->name('sessions.cancel');
