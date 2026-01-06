@@ -6,6 +6,7 @@ use App\Models\TrainingSession;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ClientController extends Controller
 {
@@ -64,11 +65,14 @@ class ClientController extends Controller
     public function mySessions()
     {
         $user = Auth::user();
+        $now = Carbon::now(); // fecha actual
 
         $sessions = TrainingSession::whereHas('reservations', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })
             ->with('trainer')
+            ->whereMonth('start_time', $now->month)   // solo mes actual
+            ->whereYear('start_time', $now->year)    // solo año actual
             ->orderBy('start_time', 'asc')
             ->get();
 
