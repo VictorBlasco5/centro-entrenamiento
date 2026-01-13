@@ -70,7 +70,7 @@
             background-color: #222222;
             color: white;
             border: 1px solid #d0d0d05d;
-            width: 170px;
+            width: 200px;
         }
 
         .buttons-my-sessions a:hover {
