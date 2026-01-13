@@ -40,7 +40,6 @@
         align-items: center;
         justify-content: center;
         padding: 5px 10px;
-        border: 1px solid red;
     }
 
     .card-my-sessions {
@@ -112,20 +111,44 @@
     .card-my-sessions button:hover {
         background-color: #000000ff;
     }
+
+    .container-my-sessions h2 {
+        width: 45%;
+        font-size: 20px;
+        border-bottom: 1px solid #444;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+    }
 </style>
 
 <section class="container-my-sessions">
-    <h1>MIS SESIONES DE  {{ \Carbon\Carbon::now()->locale('es')->translatedFormat('F') }}</h1>
+    <h1>HISTORIAL DE SESIONES</h1>
     <div class="buttons-my-sessions">
         <a>Ver calendario anual</a>
         <a href="{{ route('sessions') }}">Sesiones del mes </a>
     </div>
-    @forelse($sessions as $session)
+    @php
+    // Agrupamos por año-mes
+    $groupedSessions = $sessions->groupBy(function($session) {
+    return $session->start_time->format('Y-m');
+    });
+    @endphp
+
+    @forelse($groupedSessions as $yearMonth => $monthSessions)
+    @php
+    $dateObj = \Carbon\Carbon::createFromFormat('Y-m', $yearMonth);
+    $year = $dateObj->format('Y');
+    $monthName = $dateObj->locale('es')->translatedFormat('F');
+    @endphp
+
+    <h2 style="margin-top:20px;">{{ ucfirst($monthName) }} {{ $year }}</h2>
+
+    @foreach($monthSessions as $session)
     <div class="box-sessions">
         <div class="card-my-sessions">
             <div class="box-card-my-sessions">
                 <div class="date-my-sessions">
-                    <h5>{{ $session->start_time->translatedFormat('l d F') }}</h5>
+                    <h5>{{ ucfirst($session->start_time->locale('es')->translatedFormat('l j \\d\\e F')) }}</h5>
                     <p>
                         {{ $session->start_time->format('H:i') }} -
                         {{ $session->end_time->format('H:i') }}
@@ -141,7 +164,8 @@
             </div>
         </div>
     </div>
+    @endforeach
     @empty
-    <p>No estás apuntado a ninguna sesión.</p>
+    <p>No hay sesiones en el historial.</p>
     @endforelse
 </section>

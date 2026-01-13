@@ -98,7 +98,7 @@ class ClientController extends Controller
             $query->where('user_id', $user->id);
         })
             ->with('trainer')
-            ->orderBy('start_time', 'asc')
+            ->orderBy('start_time', 'desc')
             ->get();
 
         return view('history-sessions', compact('sessions'));

@@ -125,6 +125,14 @@
     .card-my-sessions.past p {
         color: #888;
     }
+
+    .container-my-sessions h2 {
+        width: 62%;
+        font-size: 20px;
+        border-bottom: 1px solid #444;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+    }
 </style>
 
 <section class="container-my-sessions">
