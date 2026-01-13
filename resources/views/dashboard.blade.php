@@ -25,13 +25,20 @@
             z-index: 0;
         }
 
-        .banner-calendar,
-        .buttons-my-sessions {
+        .banner-calendar {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             margin: 0;
+        }
+
+        .buttons-my-sessions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            gap: 20px;
         }
 
         .banner-calendar h2 {
@@ -56,10 +63,14 @@
         }
 
         .buttons-my-sessions a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 5px 15px;
             background-color: #222222;
             color: white;
             border: 1px solid #d0d0d05d;
+            width: 170px;
         }
 
         .buttons-my-sessions a:hover {
@@ -251,7 +262,8 @@
             </div>
             @elseif(request()->routeIs('sessions.calendar'))
             <div class="buttons-my-sessions">
-                <a href="{{ route('sessions') }}">Listado de sesiones</a>
+                <a href="{{ route('sessions') }}">Listado de {{ \Carbon\Carbon::now()->locale('es')->translatedFormat('F') }}</a>
+                <a href="{{ route('sessions.history') }}">Listado del historial</a>
             </div>
             @endif
 
