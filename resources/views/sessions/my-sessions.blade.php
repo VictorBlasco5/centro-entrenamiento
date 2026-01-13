@@ -73,6 +73,10 @@
         font-size: 15px;
     }
 
+    .date-my-sessions h5::first-letter {
+        text-transform: uppercase;
+    }
+
     .date-my-sessions p {
         font-size: 12px;
         color: grey;
@@ -134,7 +138,7 @@
         <div class="card-my-sessions">
             <div class="box-card-my-sessions">
                 <div class="date-my-sessions">
-                    <h5>{{ $session->start_time->translatedFormat('l d F') }}</h5>
+                    <h5>{{ $session->start_time->locale('es')->translatedFormat('l j \\d\\e F') }}</h5>
                     <p>
                         {{ $session->start_time->format('H:i') }} -
                         {{ $session->end_time->format('H:i') }}
@@ -168,7 +172,7 @@
         <div class="card-my-sessions past">
             <div class="box-card-my-sessions">
                 <div class="date-my-sessions">
-                    <h5>{{ $session->start_time->translatedFormat('l d F') }}</h5>
+                    <h5>{{ $session->start_time->locale('es')->translatedFormat('l j \\d\\e F') }}</h5>
                     <p>
                         {{ $session->start_time->format('H:i') }} -
                         {{ $session->end_time->format('H:i') }}
