@@ -138,7 +138,7 @@
 <section class="container-my-sessions">
     <h1>MIS SESIONES DE {{ \Carbon\Carbon::now()->locale('es')->translatedFormat('F') }}</h1>
     <div class="buttons-my-sessions">
-        <a>Ver calendario anual</a>
+       <a href="{{ route('sessions.calendar') }}">Ver en calendario</a>
         <a href="{{ route('sessions.history') }}">Historial completo </a>
     </div>
     @forelse($futureSessions as $session)

@@ -124,7 +124,7 @@
 <section class="container-my-sessions">
     <h1>HISTORIAL DE SESIONES</h1>
     <div class="buttons-my-sessions">
-        <a>Ver calendario anual</a>
+        <a href="{{ route('sessions.calendar') }}">Ver en calendario</a>
         <a href="{{ route('sessions') }}">Sesiones del mes </a>
     </div>
     @php

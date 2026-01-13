@@ -25,7 +25,8 @@
             z-index: 0;
         }
 
-        .banner-calendar {
+        .banner-calendar,
+        .buttons-my-sessions {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -46,10 +47,23 @@
         }
 
         .banner-calendar,
+        .buttons-my-sessions,
         #calendar {
             position: relative;
             z-index: 1;
             color: #fff;
+            padding-top: 30px;
+        }
+
+        .buttons-my-sessions a {
+            padding: 5px 15px;
+            background-color: #222222;
+            color: white;
+            border: 1px solid #d0d0d05d;
+        }
+
+        .buttons-my-sessions a:hover {
+            background-color: #000000ff;
         }
 
         /* ESTILOS FULLCALENDAR */
@@ -229,15 +243,23 @@
 
     <section class="container-calendar">
         <div class="calendar-bg">
-            <div class="banner-calendar">
 
+            @if(request()->routeIs('dashboard'))
+            <div class="banner-calendar">
                 <h2>Bienvenido a tu centro de entrenamiento</h2>
                 <p>Reserva tus clases, sigue tus entrenamientos y gestiona tu progreso de forma fácil y rápida.</p>
             </div>
+            @elseif(request()->routeIs('sessions.calendar'))
+            <div class="buttons-my-sessions">
+                <a href="{{ route('sessions') }}">Listado de sesiones</a>
+            </div>
+            @endif
+
             <!-- Calendario integrado -->
             <div id="calendar"></div>
         </div>
     </section>
+
 
 
     <footer>

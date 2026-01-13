@@ -120,4 +120,19 @@ class ClientController extends Controller
 
         return redirect()->back()->with('success', 'Reserva cancelada');
     }
+
+    public function annualCalendar()
+    {
+        $user = Auth::user();
+
+        $sessions = TrainingSession::whereHas('reservations', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+            ->with('trainer')
+            ->get();
+
+        $sessions->loadCount('reservations');
+
+        return view('sessions.calendar', compact('sessions'));
+    }
 }
