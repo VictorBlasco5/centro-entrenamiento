@@ -164,7 +164,7 @@
             <form method="POST" action="{{ route('sessions.cancel', $session->id) }}">
                 @csrf
                 @method('DELETE')
-                <button type="submit">Cancelar</button>
+                <button type="submit" onclick="return confirm('¿Estás seguro de que quieres cancelar esta sesión?')">Cancelar</button>
             </form>
         </div>
     </div>
