@@ -65,21 +65,32 @@ class ClientController extends Controller
     public function mySessions()
     {
         $user = Auth::user();
-        $now = Carbon::now(); // fecha actual
+        $now = Carbon::now();
 
-        $sessions = TrainingSession::whereHas('reservations', function ($query) use ($user) {
+        $futureSessions = TrainingSession::whereHas('reservations', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })
             ->with('trainer')
-            ->whereMonth('start_time', $now->month)   // solo mes actual
-            ->whereYear('start_time', $now->year)    // solo año actual
+            ->whereMonth('start_time', $now->month)
+            ->whereYear('start_time', $now->year)
+            ->where('start_time', '>=', $now)
             ->orderBy('start_time', 'asc')
             ->get();
 
-        return view('sessions', compact('sessions'));
+        $pastSessions = TrainingSession::whereHas('reservations', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+            ->with('trainer')
+            ->whereMonth('start_time', $now->month)
+            ->whereYear('start_time', $now->year)
+            ->where('start_time', '<', $now)
+            ->orderBy('start_time', 'desc')
+            ->get();
+
+        return view('sessions', compact('futureSessions', 'pastSessions'));
     }
 
-        public function allMySessions()
+    public function allMySessions()
     {
         $user = Auth::user();
 

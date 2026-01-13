@@ -111,15 +111,25 @@
     .card-my-sessions button:hover {
         background-color: #000000ff;
     }
+
+    .card-my-sessions.past {
+        background-color: #111;
+        opacity: 0.6;
+    }
+
+    .card-my-sessions.past h5,
+    .card-my-sessions.past p {
+        color: #888;
+    }
 </style>
 
 <section class="container-my-sessions">
-    <h1>MIS SESIONES DE  {{ \Carbon\Carbon::now()->locale('es')->translatedFormat('F') }}</h1>
+    <h1>MIS SESIONES DE {{ \Carbon\Carbon::now()->locale('es')->translatedFormat('F') }}</h1>
     <div class="buttons-my-sessions">
         <a>Ver calendario anual</a>
         <a href="{{ route('sessions.history') }}">Historial completo </a>
     </div>
-    @forelse($sessions as $session)
+    @forelse($futureSessions as $session)
     <div class="box-sessions">
         <div class="card-my-sessions">
             <div class="box-card-my-sessions">
@@ -144,10 +154,37 @@
                 @method('DELETE')
                 <button type="submit">Cancelar</button>
             </form>
-
         </div>
     </div>
     @empty
-    <p>No estás apuntado a ninguna sesión.</p>
+    <p>No tienes sesiones futuras.</p>
     @endforelse
+
+    @if($pastSessions->count())
+    <h2 style="margin-top:40px;">Sesiones pasadas</h2>
+
+    @foreach($pastSessions as $session)
+    <div class="box-sessions">
+        <div class="card-my-sessions past">
+            <div class="box-card-my-sessions">
+                <div class="date-my-sessions">
+                    <h5>{{ $session->start_time->translatedFormat('l d F') }}</h5>
+                    <p>
+                        {{ $session->start_time->format('H:i') }} -
+                        {{ $session->end_time->format('H:i') }}
+                    </p>
+                </div>
+
+                <div class="separator">-</div>
+
+                <div class="type-my-sessions">
+                    <h5>{{ $session->title }}</h5>
+                    <p>con {{ $session->trainer->name ?? 'Sin asignar' }}</p>
+                </div>
+            </div>
+            {{-- SIN BOTÓN --}}
+        </div>
+    </div>
+    @endforeach
+    @endif
 </section>
