@@ -16,7 +16,7 @@ class User extends Authenticatable
     public const ROLES = [
         'admin',
         'client',
-        'trainer',
+        'coach',
     ];
 
     /**

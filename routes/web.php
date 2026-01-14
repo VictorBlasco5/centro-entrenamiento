@@ -66,9 +66,10 @@ Route::middleware([Authenticate::class, RoleMiddleware::class . ':admin'])
     });
 
 // Rutas rol entrenador
+Route::middleware([RoleMiddleware::class . ':coach'])->group(function () {
+    Route::get('/coach/sessions', [CoachController::class, 'mySessions'])->name('coach.sessions');
+});
 
-    Route::middleware(['auth'])->get('/coach/sessions', [CoachController::class, 'mySessions'])
-    ->name('coach.sessions');
 
 
 require __DIR__ . '/auth.php';
