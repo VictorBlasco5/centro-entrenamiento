@@ -46,16 +46,15 @@ Route::middleware([Authenticate::class])->group(function () {
     //Mis sesiones reservadas
     Route::get('/sessions', [ClientController::class, 'mySessions'])
         ->name('sessions');
-        Route::get('/sessions/calendar', [ClientController::class, 'annualCalendar'])
+    Route::get('/sessions/calendar', [ClientController::class, 'annualCalendar'])
         ->name('sessions.calendar');
 
     Route::delete('/sessions/{session}/cancel', [ClientController::class, 'cancel'])
         ->name('sessions.cancel');
-    
+
     // Historial completo de sesiones
     Route::get('/sessions/history', [ClientController::class, 'allMySessions'])
         ->name('sessions.history');
-
 });
 
 // Rutas de administración protegidas por rol 'admin'
@@ -67,7 +66,8 @@ Route::middleware([Authenticate::class, RoleMiddleware::class . ':admin'])
 
 // Rutas rol entrenador
 Route::middleware([RoleMiddleware::class . ':coach'])->group(function () {
-    Route::get('/coach/sessions', [CoachController::class, 'mySessions'])->name('coach.sessions');
+    Route::get('/coach/sessions', [CoachController::class, 'weeklySessions'])
+        ->name('coach.coach-sessions');
 });
 
 

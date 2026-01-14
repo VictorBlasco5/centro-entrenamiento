@@ -25,4 +25,24 @@ class CoachController extends Controller
 
         return view('coach.coach-sessions', compact('futureSessions', 'pastSessions'));
     }
+
+    public function weeklySessions()
+    {
+        $coach = Auth::user();
+
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+
+        $sessions = TrainingSession::with('reservations.user')
+            ->where('trainer_id', $coach->id)
+            ->whereBetween('start_time', [$startOfWeek, $endOfWeek])
+            ->orderBy('start_time')
+            ->get();
+
+        $weeklySessions = $sessions->groupBy(function ($session) {
+            return $session->start_time->format('Y-m-d');
+        });
+
+        return view('coach.coach-sessions', compact('weeklySessions'));
+    }
 }
