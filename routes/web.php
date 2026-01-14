@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminTrainingSessionController;
+use App\Http\Controllers\CoachController;
 use App\Http\Controllers\ContactController;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\RoleMiddleware;
@@ -64,6 +65,10 @@ Route::middleware([Authenticate::class, RoleMiddleware::class . ':admin'])
             ->parameters(['training' => 'session']);
     });
 
+// Rutas rol entrenador
+
+    Route::middleware(['auth'])->get('/coach/sessions', [CoachController::class, 'mySessions'])
+    ->name('coach.sessions');
 
 
 require __DIR__ . '/auth.php';
