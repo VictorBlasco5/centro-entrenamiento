@@ -45,9 +45,11 @@
     <div class="row">
         <div class="links-footer">
             <a href="{{ url('/') }}" class="btn btn-link">Inicio</a>
+            @auth
             <a href="{{ route('dashboard') }}" class="btn btn-link">Calendario</a>
-            <a href="{{ url('/contact') }}" class="btn btn-link">Contacto</a>
+            @endauth
             <a href="{{ url('/trainers') }}" class="btn btn-link">Entrenadores</a>
+            <a href="{{ url('/contact') }}" class="btn btn-link">Contacto</a>
         </div>
         <div class="copyright">© 2026 Centro de Entrenamiento. Todos los derechos reservados.</div>
         <div class="instagram"> <a href="https://www.instagram.com" class="btn btn-link"><i class="fa-brands fa-instagram"></i></a></div>

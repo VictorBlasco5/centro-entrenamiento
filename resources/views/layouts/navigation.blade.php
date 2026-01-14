@@ -72,7 +72,7 @@
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="btn btn-link">
-                    Logout
+                    Cerrar sesión
                 </button>
             </form>
             @else
