@@ -18,8 +18,11 @@
 
     <main>
         @include('sessions.history')
-        @include('layouts.footer')
     </main>
+
+    <footer>
+        @include('layouts.footer')
+    </footer>
 </body>
 
 </html>

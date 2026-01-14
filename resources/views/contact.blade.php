@@ -18,8 +18,11 @@
 
     <main>
         @include('contact.form-contact')
-        @include('layouts.footer')
     </main>
+    
+    <footer>
+        @include('layouts.footer')
+    </footer>
 </body>
 
 </html>

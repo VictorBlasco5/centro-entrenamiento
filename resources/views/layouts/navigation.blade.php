@@ -46,47 +46,39 @@
 <header class="navbar">
     <div class="navbar-container">
         <nav class="navbar-links">
-            <a href="{{ url('/') }}" class="btn btn-link">
-                Inicio
-            </a>
-            <a href="{{ url('/trainers') }}" class="btn btn-link">
-                Entrenadores
-            </a>
-            <a href="{{ url('/contact') }}" class="btn btn-link">
-                Contacto
-            </a>
+            @if(!Auth::check() || Auth::user()->role !== 'coach')
+            <!-- Siempre visible para visitantes y clientes -->
+            <a href="{{ url('/') }}" class="btn btn-link">Inicio</a>
+            <a href="{{ url('/trainers') }}" class="btn btn-link">Entrenadores</a>
+            <a href="{{ url('/contact') }}" class="btn btn-link">Contacto</a>
+            @endif
+
+            <!-- Logo siempre visible -->
             <a class="navbar-logo">
                 <img src="{{ asset('images/logo.png') }}" alt="Logo" class="navbar-logo">
             </a>
+
             @auth
-            <a href="{{ route('dashboard') }}" class="btn btn-link">
-                Calendario
-            </a>
-            <a href="{{ route('sessions') }}" class="btn btn-link">
-                Mis sesiones
-            </a>
-            <a href="{{ route('profile.edit') }}" class="btn btn-link">
-                Perfil
-            </a>
+            <!-- Solo para usuarios logueados -->
+            @if(Auth::user()->role === 'coach')
+            <a href="{{ route('coach.sessions') }}" class="btn btn-link">Calendario</a>
+            @else
+            <a href="{{ route('dashboard') }}" class="btn btn-link">Calendario</a>
+            @endif
+            <a href="{{ route('sessions') }}" class="btn btn-link">Mis sesiones</a>
+            <a href="{{ route('profile.edit') }}" class="btn btn-link">Perfil</a>
 
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="btn btn-link">
-                    Cerrar sesión
-                </button>
+                <button type="submit" class="btn btn-link">Cerrar sesión</button>
             </form>
             @else
-            <a href="{{ route('login') }}" class="btn btn-link">
-                Iniciar sesión
-            </a>
-
+            <!-- Visitantes no logueados -->
+            <a href="{{ route('login') }}" class="btn btn-link">Iniciar sesión</a>
             @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="btn btn-link">
-                Registro
-            </a>
+            <a href="{{ route('register') }}" class="btn btn-link">Registro</a>
             @endif
             @endauth
         </nav>
-
     </div>
 </header>

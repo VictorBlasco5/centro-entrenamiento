@@ -20,10 +20,11 @@
     <main>
         @include('home.transforma')
         @include('home.history')
-        @include('layouts.footer')
     </main>
 
-
+    <footer>
+        @include('layouts.footer')
+    </footer>
 </body>
 
 </html>

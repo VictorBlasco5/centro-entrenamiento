@@ -18,8 +18,11 @@
 
     <main>
         @include('sessions.my-sessions')
-        @include('layouts.footer')
     </main>
+
+    <footer>
+        @include('layouts.footer')
+    </footer>
 </body>
 
 </html>
