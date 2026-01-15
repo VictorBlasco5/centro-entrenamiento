@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
 
         // Redirigir según rol
         if ($user->role === 'coach') {
-            return redirect()->route('coach.sessions');
+            return redirect()->route('coach');
         }
 
         return redirect()->intended(route('dashboard', absolute: false));

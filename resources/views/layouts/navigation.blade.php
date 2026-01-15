@@ -61,11 +61,11 @@
             @auth
             <!-- Solo para usuarios logueados -->
             @if(Auth::user()->role === 'coach')
-            <a href="{{ route('coach.sessions') }}" class="btn btn-link">Calendario</a>
+            <a href="{{ route('coach') }}" class="btn btn-link">Sesiones</a>
             @else
             <a href="{{ route('dashboard') }}" class="btn btn-link">Calendario</a>
-            @endif
             <a href="{{ route('sessions') }}" class="btn btn-link">Mis sesiones</a>
+            @endif
             <a href="{{ route('profile.edit') }}" class="btn btn-link">Perfil</a>
 
             <form method="POST" action="{{ route('logout') }}">

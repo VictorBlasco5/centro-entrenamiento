@@ -43,6 +43,6 @@ class CoachController extends Controller
             return $session->start_time->format('Y-m-d');
         });
 
-        return view('coach.coach-sessions', compact('weeklySessions'));
+        return view('coach', compact('weeklySessions'));
     }
 }

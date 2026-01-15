@@ -5,37 +5,52 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        font-weight: bold;
         font-family: var(--font-jost-regular);
         background-color: black;
         color: white;
+        padding: 30px 0;
     }
 
     .container-my-sessions h1 {
         font-size: 40px;
         text-transform: uppercase;
+        padding-bottom: 20px;
+        font-weight: bold;
     }
 
-    .buttons-details {
+    .container-my-sessions h2 {
+        width: 62%;
+        font-size: 18px;
+        border-bottom: 1px solid #444;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+    }
+
+    .accordion-toggle {
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-size: 12px;
-        padding: 5px 15px;
-        background-color: #222222;
-        color: white;
-        border: 1px solid #d0d0d05d;
-        text-decoration: none;
-        width: 15%;
+        flex-direction: row;
     }
 
-    .buttons-details:hover {
-        background-color: black;
+    .accordion-toggle i {
+        padding-left: 5px;
+        cursor: pointer;
+    }
+
+    .accordion-content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.4s ease;
     }
 
     .box-sessions {
         height: auto;
-        width: 70%;
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -46,8 +61,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 80%;
-        height: 20px;
+        width: 60%;
+        height: 40px;
         padding: 10px;
         background-color: #1E1F26;
     }
@@ -63,7 +78,7 @@
         display: flex;
         flex-direction: column;
         position: relative;
-        width: 15%;
+        width: 25%;
     }
 
     .date-my-sessions h5 {
@@ -119,12 +134,21 @@
         color: #888;
     }
 
-    .container-my-sessions h2 {
-        width: 62%;
-        font-size: 20px;
-        border-bottom: 1px solid #444;
-        padding-bottom: 5px;
-        margin-bottom: 5px;
+    .buttons-details {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        padding: 5px 15px;
+        background-color: #222222;
+        color: white;
+        border: 1px solid #d0d0d05d;
+        text-decoration: none;
+        width: 25%;
+    }
+
+    .buttons-details:hover {
+        background-color: black;
     }
 </style>
 
@@ -138,28 +162,60 @@
     $dayName = $dateObj->locale('es')->translatedFormat('l j \\d\\e F');
     @endphp
 
-    <h2>{{ ucfirst($dayName) }}</h2>
+    <h2 class="accordion-toggle">
+        {{ ucfirst($dayName) }}
+        <i class="fa-solid fa-angle-down"></i>
+    </h2>
 
-    @foreach($sessions as $session)
-    <div class="box-sessions" style="cursor:pointer;">
-        <div class="card-my-sessions">
-            <div class="box-card-my-sessions">
-                <div class="date-my-sessions">
-                    <h5>{{ $session->start_time->format('H:i') }} - {{ $session->end_time->format('H:i') }}</h5>
+    <div class="accordion-content">
+        @foreach($sessions as $session)
+        <div class="box-sessions">
+            <div class="card-my-sessions">
+                <div class="box-card-my-sessions">
+                    <div class="date-my-sessions">
+                        <h5>{{ $session->start_time->format('H:i') }} - {{ $session->end_time->format('H:i') }}</h5>
+                    </div>
+                    <div class="separator">-</div>
+                    <div class="type-my-sessions">
+                        <h5>{{ $session->title }}</h5>
+                        <p>{{ $session->reservations_count ?? 0 }} clientes</p>
+                    </div>
+                    <a class="buttons-details" href="">Ver detalles</a>
                 </div>
-
-                <div class="separator">-</div>
-
-                <div class="type-my-sessions">
-                    <h5>{{ $session->title }}</h5>
-                    <p>{{ $session->reservations_count ?? 0 }} clientes</p>
-                </div>
-                <a class="buttons-details" href="">Ver detalles</a>
             </div>
         </div>
+        @endforeach
     </div>
-    @endforeach
+
     @empty
     <p>No hay sesiones programadas para esta semana.</p>
     @endforelse
 </section>
+
+
+<script>
+    document.querySelectorAll('.accordion-toggle').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            const content = toggle.nextElementSibling;
+            const icon = toggle.querySelector('i');
+
+            const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+            if (isOpen) {
+                content.style.maxHeight = '0';
+                icon.classList.remove('fa-angle-up');
+                icon.classList.add('fa-angle-down');
+            } else {
+                // 🔥 forzar reflow
+                content.style.maxHeight = 'none';
+                const height = content.scrollHeight;
+                content.style.maxHeight = '0';
+                content.offsetHeight; // fuerza repaint
+                content.style.maxHeight = height + 'px';
+
+                icon.classList.remove('fa-angle-down');
+                icon.classList.add('fa-angle-up');
+            }
+        });
+    });
+</script>
