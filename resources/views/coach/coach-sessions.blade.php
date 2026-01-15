@@ -30,6 +30,7 @@
         display: flex;
         align-items: center;
         flex-direction: row;
+        padding-left: 5px;
     }
 
     .accordion-toggle i {
@@ -198,7 +199,6 @@
         toggle.addEventListener('click', () => {
             const content = toggle.nextElementSibling;
             const icon = toggle.querySelector('i');
-
             const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
 
             if (isOpen) {
@@ -206,11 +206,10 @@
                 icon.classList.remove('fa-angle-up');
                 icon.classList.add('fa-angle-down');
             } else {
-                // 🔥 forzar reflow
                 content.style.maxHeight = 'none';
                 const height = content.scrollHeight;
                 content.style.maxHeight = '0';
-                content.offsetHeight; // fuerza repaint
+                content.offsetHeight;
                 content.style.maxHeight = height + 'px';
 
                 icon.classList.remove('fa-angle-down');
