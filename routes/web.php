@@ -68,6 +68,8 @@ Route::middleware([Authenticate::class, RoleMiddleware::class . ':admin'])
 Route::middleware([RoleMiddleware::class . ':coach'])->group(function () {
     Route::get('/coach', [CoachController::class, 'weeklySessions'])
         ->name('coach');
+    Route::get('/coach/sessions/{session}', [CoachController::class, 'sessionDetail'])
+        ->name('coach.session-detail');
 });
 
 

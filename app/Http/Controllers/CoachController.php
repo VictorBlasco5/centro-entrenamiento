@@ -45,4 +45,15 @@ class CoachController extends Controller
 
         return view('coach', compact('weeklySessions'));
     }
+
+    public function sessionDetail(TrainingSession $session)
+    {
+        if ($session->trainer_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $session->load('reservations.user');
+
+        return view('coach.session-detail', compact('session'));
+    }
 }

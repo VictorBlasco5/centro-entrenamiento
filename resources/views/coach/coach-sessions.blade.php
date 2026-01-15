@@ -179,9 +179,9 @@
                     <div class="separator">-</div>
                     <div class="type-my-sessions">
                         <h5>{{ $session->title }}</h5>
-                        <p>{{ $session->reservations_count ?? 0 }} clientes</p>
+                        <p>{{ $session->reservations->count() }} clientes</p>
                     </div>
-                    <a class="buttons-details" href="">Ver detalles</a>
+                    <a class="buttons-details" href="{{ route('coach.session-detail', $session) }}">Ver detalles</a>
                 </div>
             </div>
         </div>
