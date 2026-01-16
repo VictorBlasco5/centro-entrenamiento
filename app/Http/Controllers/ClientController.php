@@ -133,6 +133,6 @@ class ClientController extends Controller
 
         $sessions->loadCount('reservations');
 
-        return view('sessions.calendar', compact('sessions'));
+        return view('users.sessions-calendar', compact('sessions'));
     }
 }

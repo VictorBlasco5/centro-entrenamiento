@@ -17,7 +17,7 @@
     </header>
 
     <main>
-        @include('sessions.history')
+        @include('users.sessions-history')
     </main>
 
     <footer>

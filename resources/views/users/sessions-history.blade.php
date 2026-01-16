@@ -35,18 +35,18 @@
 
     .box-sessions {
         height: auto;
-        width: 80%;
+        width: 45%;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 5px 30px;
+        padding: 5px 10px;
     }
 
     .card-my-sessions {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 80%;
+        width: 100%;
         height: 80px;
         padding: 25px;
         background-color: #1E1F26;
@@ -56,7 +56,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 50%;
+        width: 100%;
         /* border: 1px solid green; */
     }
 
@@ -65,16 +65,12 @@
         flex-direction: column;
         position: relative;
         padding-right: 25px;
-        width: 60%;
+        width: 100%;
         /* border: 1px solid blueviolet; */
     }
 
     .date-my-sessions h5 {
         font-size: 15px;
-    }
-
-    .date-my-sessions h5::first-letter {
-        text-transform: uppercase;
     }
 
     .date-my-sessions p {
@@ -116,18 +112,8 @@
         background-color: #000000ff;
     }
 
-    .card-my-sessions.past {
-        background-color: #111;
-        opacity: 0.6;
-    }
-
-    .card-my-sessions.past h5,
-    .card-my-sessions.past p {
-        color: #888;
-    }
-
     .container-my-sessions h2 {
-        width: 62%;
+        width: 45%;
         font-size: 20px;
         border-bottom: 1px solid #444;
         padding-bottom: 5px;
@@ -136,17 +122,33 @@
 </style>
 
 <section class="container-my-sessions">
-    <h1>MIS SESIONES DE {{ \Carbon\Carbon::now()->locale('es')->translatedFormat('F') }}</h1>
+    <h1>HISTORIAL DE SESIONES</h1>
     <div class="buttons-my-sessions">
-       <a href="{{ route('sessions.calendar') }}">Ver en calendario</a>
-        <a href="{{ route('sessions.history') }}">Historial completo </a>
+        <a href="{{ route('users.sessions-calendar') }}">Ver en calendario</a>
+        <a href="{{ route('sessions') }}">Sesiones del mes </a>
     </div>
-    @forelse($futureSessions as $session)
+    @php
+    // Agrupamos por año-mes
+    $groupedSessions = $sessions->groupBy(function($session) {
+    return $session->start_time->format('Y-m');
+    });
+    @endphp
+
+    @forelse($groupedSessions as $yearMonth => $monthSessions)
+    @php
+    $dateObj = \Carbon\Carbon::createFromFormat('Y-m', $yearMonth);
+    $year = $dateObj->format('Y');
+    $monthName = $dateObj->locale('es')->translatedFormat('F');
+    @endphp
+
+    <h2 style="margin-top:20px;">{{ ucfirst($monthName) }} {{ $year }}</h2>
+
+    @foreach($monthSessions as $session)
     <div class="box-sessions">
         <div class="card-my-sessions">
             <div class="box-card-my-sessions">
                 <div class="date-my-sessions">
-                    <h5>{{ $session->start_time->locale('es')->translatedFormat('l j \\d\\e F') }}</h5>
+                    <h5>{{ ucfirst($session->start_time->locale('es')->translatedFormat('l j \\d\\e F')) }}</h5>
                     <p>
                         {{ $session->start_time->format('H:i') }} -
                         {{ $session->end_time->format('H:i') }}
@@ -160,43 +162,10 @@
                     <p>con {{ $session->trainer->name ?? 'Sin asignar' }}</p>
                 </div>
             </div>
-
-            <form method="POST" action="{{ route('sessions.cancel', $session->id) }}">
-                @csrf
-                @method('DELETE')
-                <button type="submit" onclick="return confirm('¿Estás seguro de que quieres cancelar esta sesión?')">Cancelar</button>
-            </form>
-        </div>
-    </div>
-    @empty
-    <p>No tienes sesiones futuras.</p>
-    @endforelse
-
-    @if($pastSessions->count())
-    <h2 style="margin-top:40px;">Sesiones pasadas</h2>
-
-    @foreach($pastSessions as $session)
-    <div class="box-sessions">
-        <div class="card-my-sessions past">
-            <div class="box-card-my-sessions">
-                <div class="date-my-sessions">
-                    <h5>{{ $session->start_time->locale('es')->translatedFormat('l j \\d\\e F') }}</h5>
-                    <p>
-                        {{ $session->start_time->format('H:i') }} -
-                        {{ $session->end_time->format('H:i') }}
-                    </p>
-                </div>
-
-                <div class="separator">-</div>
-
-                <div class="type-my-sessions">
-                    <h5>{{ $session->title }}</h5>
-                    <p>con {{ $session->trainer->name ?? 'Sin asignar' }}</p>
-                </div>
-            </div>
-            {{-- SIN BOTÓN --}}
         </div>
     </div>
     @endforeach
-    @endif
+    @empty
+    <p>No hay sesiones en el historial.</p>
+    @endforelse
 </section>

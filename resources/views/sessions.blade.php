@@ -17,7 +17,7 @@
     </header>
 
     <main>
-        @include('sessions.my-sessions')
+        @include('users.my-sessions')
     </main>
 
     <footer>

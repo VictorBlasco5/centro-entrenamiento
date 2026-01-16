@@ -262,7 +262,7 @@
             @elseif(request()->routeIs('sessions.calendar'))
             <div class="buttons-my-sessions">
                 <a href="{{ route('sessions') }}">Listado de {{ \Carbon\Carbon::now()->locale('es')->translatedFormat('F') }}</a>
-                <a href="{{ route('sessions.history') }}">Listado del historial</a>
+                <a href="{{ route('users.sessions-history') }}">Listado del historial</a>
             </div>
             @endif
 
