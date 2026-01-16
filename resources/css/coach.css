@@ -1,0 +1,314 @@
+/* --------------------------------- Calendario coach ------------------------ */
+
+.container-calendar {
+    font-family: var(--font-jost-regular);
+}
+
+.calendar-bg {
+    position: relative;
+    background-image: url('/public/images/calendar/gym_general_view.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.calendar-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(58, 58, 58, 0.7);
+    z-index: 0;
+}
+
+#calendar {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    padding-top: 30px;
+}
+
+/* ESTILOS FULLCALENDAR */
+#calendar {
+    max-width: 1200px;
+    margin: 0px auto;
+    padding: 30px;
+    color: white;
+}
+
+/* botones navegación calendario */
+.fc-header-toolbar .fc-toolbar-chunk button {
+    background-color: #222222;
+    border: none;
+}
+
+.fc-header-toolbar .fc-toolbar-chunk button:hover {
+    background-color: #d0d0d05d;
+    border: none;
+}
+
+.fc-header-toolbar .fc-toolbar-chunk button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Botón Hoy*/
+.fc .fc-today-button {
+    background-color: #222222 !important;
+    border: none !important;
+    cursor: pointer;
+}
+
+.fc .fc-today-button:hover {
+    background-color: #d0d0d05d !important;
+}
+
+
+/* Fondo del dia en vista MES /SEMANA / DÍA */
+.fc .fc-daygrid-day.fc-day-today {
+    background-color: #ffffff2d !important;
+}
+
+/* Quitar cuadrícula */
+.fc-timegrid-slot {
+    border-top: none !important;
+}
+
+/*CALENDARIO MES */
+
+.fc-event:hover {
+    background-color: transparent !important;
+}
+
+.fc-daygrid-day-events {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px;
+}
+
+/* Añadir h en horas mes */
+.fc-daygrid-event .fc-event-time::after {
+    content: "h";
+    font-size: 11px;
+}
+
+.fc-daygrid-event-dot {
+    display: none;
+}
+
+/* Fondo oscuro para la fila de los días de la semana */
+.fc .fc-col-header-cell {
+    background-color: #222222;
+}
+
+/* Añadir un punto antes de cada evento */
+.fc-daygrid-day-events .fc-daygrid-event-harness {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 12px;
+}
+
+.fc-daygrid-day-events .fc-daygrid-event-harness::before {
+    content: "•";
+    display: flex;
+    align-items: center;
+    margin-left: 4px;
+    margin-right: 4px;
+    font-size: 8px;
+}
+
+
+/* -------------------------------------------- Sesiones coach ----------------------------------------------- */
+
+.container-my-sessions {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-family: var(--font-jost-regular);
+    background-color: black;
+    color: white;
+    padding: 30px 0;
+}
+
+.container-my-sessions h1 {
+    font-size: 40px;
+    text-transform: uppercase;
+    padding-bottom: 20px;
+    font-weight: bold;
+}
+
+.container-my-sessions h2 {
+    width: 62%;
+    font-size: 18px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.accordion-toggle {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding-left: 5px;
+}
+
+.accordion-toggle i {
+    padding-left: 5px;
+    cursor: pointer;
+}
+
+.accordion-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease;
+}
+
+.box-sessions {
+    height: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 30px;
+}
+
+.card-my-sessions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 60%;
+    height: 40px;
+    padding: 10px;
+    background-color: #1E1F26;
+}
+
+.box-card-my-sessions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.date-my-sessions {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 25%;
+}
+
+.date-my-sessions h5 {
+    font-size: 12px;
+    margin: 0;
+}
+
+.date-my-sessions p {
+    font-size: 12px;
+    color: grey;
+}
+
+.separator {
+    padding: 0 15px;
+}
+
+.type-my-sessions {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+}
+
+.type-my-sessions h5 {
+    font-size: 12px;
+    margin: 0;
+}
+
+.type-my-sessions p {
+    font-size: 12px;
+    color: grey;
+}
+
+.card-my-sessions button {
+    background-color: #222222;
+    color: white;
+    border: 1px solid #d0d0d05d;
+    padding: 4px 10px;
+    font-size: 15px;
+}
+
+.card-my-sessions button:hover {
+    background-color: #000000ff;
+}
+
+.card-my-sessions.past {
+    background-color: #111;
+    opacity: 0.6;
+}
+
+.card-my-sessions.past h5,
+.card-my-sessions.past p {
+    color: #888;
+}
+
+.box-card-my-sessions button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    padding: 5px 15px;
+    background-color: #222222;
+    color: white;
+    border: 1px solid #d0d0d05d;
+    text-decoration: none;
+    width: 25%;
+}
+
+.box-card-my-sessions button:hover {
+    background-color: black;
+}
+
+.session-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.session-modal-content {
+    background-color: #1E1F26;
+    color: white;
+    padding: 35px;
+    width: 400px;
+    max-width: 90%;
+    position: relative;
+}
+
+.session-modal-content h2 {
+    width: 90%;
+    padding-bottom: 0;
+}
+
+.session-modal-content p {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.session-modal-content ul {
+    font-size: 14px;
+}
+
+.session-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 22px;
+    cursor: pointer;
+}

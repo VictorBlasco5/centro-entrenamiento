@@ -1,7 +1,7 @@
 <nav class="navbar">
     <ul class="nav-items">
         @guest
-        <li><a href="{{ route('/home') }}">Inicio</a></li>
+        <li><a href="{{ route('home') }}">Inicio</a></li>
         <li><a href="{{ url('/trainers') }}">Entrenadores</a></li>
         <li><a href="{{ url('/contact') }}">Contacto</a></li>
         <li class="logo">

@@ -3,6 +3,7 @@
 @import 'home.css';
 @import 'trainers.css';
 @import 'navbar.css';
+@import 'coach.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

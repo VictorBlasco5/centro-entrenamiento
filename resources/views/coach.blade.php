@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/es.min.js"></script>
 
     @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
     <title>Entrenador</title>
 
 </head>
