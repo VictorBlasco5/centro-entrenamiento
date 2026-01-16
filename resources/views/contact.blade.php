@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, user-scalable=yes">
 
     @vite('resources/css/app.css')
+    @vite('resources/css/contact.css')
+    @vite('resources/js/contact.js')
     <title>Contacto</title>
 
 </head>
