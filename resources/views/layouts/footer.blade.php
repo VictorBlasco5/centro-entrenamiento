@@ -1,47 +1,5 @@
-<style>
-    .container-footer {
-        background-color: #000000ff;
-        color: white;
-        font-size: 12px;
-    }
 
-    .row {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 60px 20px 60px;
-    }
-
-    .links-footer {
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        gap: 15px;
-        width: 200px;
-        line-height: 1;
-    }
-
-    .links-footer a {
-        padding: 0;
-        font-size: 12px;
-    }
-
-    .copyright {
-        padding-right: 120px;
-    }
-
-    .instagram {
-        width: 20px;
-        height: 20px;
-    }
-
-    .instagram i {
-        font-size: 20px
-    }
-</style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
 
 <section class="container-footer">
     <div class="row">

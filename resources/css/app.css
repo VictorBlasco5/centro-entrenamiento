@@ -1,3 +1,7 @@
+@import 'footer.css';
+@import 'contact.css';
+@import 'home.css';
+@import 'trainers.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

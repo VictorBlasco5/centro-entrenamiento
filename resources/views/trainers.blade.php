@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, user-scalable=yes">
 
     @vite('resources/css/app.css')
-    @vite('resources/css/trainers.css')
     <title>Entrenadores</title>
 
 </head>
