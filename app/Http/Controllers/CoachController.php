@@ -8,41 +8,30 @@ use Carbon\Carbon;
 
 class CoachController extends Controller
 {
-    public function mySessions()
-    {
-        $coach = Auth::user();
-        $now = Carbon::now();
-
-        $futureSessions = TrainingSession::where('trainer_id', $coach->id)
-            ->where('start_time', '>=', $now)
-            ->orderBy('start_time', 'asc')
-            ->get();
-
-        $pastSessions = TrainingSession::where('trainer_id', $coach->id)
-            ->where('start_time', '<', $now)
-            ->orderBy('start_time', 'desc')
-            ->get();
-
-        return view('coach.coach-sessions', compact('futureSessions', 'pastSessions'));
-    }
-
-    public function weeklySessions()
+    public function coachSessions()
     {
         $coach = Auth::user();
 
+        // 🔹 SESIONES DE LA SEMANA (listado)
         $startOfWeek = Carbon::now()->startOfWeek();
-        $endOfWeek = Carbon::now()->endOfWeek();
+        $endOfWeek   = Carbon::now()->endOfWeek();
 
-        $sessions = TrainingSession::with('reservations.user')
+        $weeklySessions = TrainingSession::with('reservations.user')
             ->where('trainer_id', $coach->id)
             ->whereBetween('start_time', [$startOfWeek, $endOfWeek])
             ->orderBy('start_time')
+            ->get()
+            ->groupBy(fn($s) => $s->start_time->format('Y-m-d'));
+
+        // 🔹 SESIONES DEL MES (calendario)
+        $calendarSessions = TrainingSession::withCount('reservations')
+            ->where('trainer_id', $coach->id)
+            ->orderBy('start_time')
             ->get();
 
-        $weeklySessions = $sessions->groupBy(function ($session) {
-            return $session->start_time->format('Y-m-d');
-        });
-
-        return view('coach', compact('weeklySessions'));
+        return view('coach', compact(
+            'weeklySessions',
+            'calendarSessions'
+        ));
     }
 }

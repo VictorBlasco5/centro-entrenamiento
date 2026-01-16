@@ -66,7 +66,7 @@ Route::middleware([Authenticate::class, RoleMiddleware::class . ':admin'])
 
 // Rutas rol entrenador
 Route::middleware([RoleMiddleware::class . ':coach'])->group(function () {
-    Route::get('/coach', [CoachController::class, 'weeklySessions'])
+    Route::get('/coach', [CoachController::class, 'coachSessions'])
         ->name('coach');
 });
 

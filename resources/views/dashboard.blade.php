@@ -99,7 +99,6 @@
         .fc-header-toolbar .fc-toolbar-chunk button:focus {
             outline: none !important;
             box-shadow: none !important;
-            background-color: #d0d0d05d !important;
         }
 
         /* Botón activo (Mes / Semana / Día) */
