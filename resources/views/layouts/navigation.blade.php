@@ -21,7 +21,7 @@
                 <img src="/images/logo.png" alt="Logo">
             </a>
         </li>
-        <li><a href="{{ route('users.sessions-calendar') }}">Calendario</a></li>
+        <li><a href="{{ route('dashboard') }}">Calendario</a></li>
         <li><a href="{{ route('sessions') }}">Mis sesiones</a></li>
         <li><a href="{{ route('profile.edit') }}">Perfil</a></li>
         <li>
