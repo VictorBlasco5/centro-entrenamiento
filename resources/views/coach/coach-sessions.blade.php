@@ -135,7 +135,7 @@
         color: #888;
     }
 
-    .buttons-details {
+    .box-card-my-sessions button {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -148,11 +148,51 @@
         width: 25%;
     }
 
-    .buttons-details:hover {
+    .box-card-my-sessions button:hover {
         background-color: black;
     }
-</style>
 
+    .session-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    }
+
+    .session-modal-content {
+        background-color: #1E1F26;
+        color: white;
+        padding: 35px;
+        width: 400px;
+        max-width: 90%;
+        position: relative;
+    }
+
+    .session-modal-content h2 {
+        width: 90%;
+        padding-bottom: 0;
+    }
+
+    .session-modal-content p {
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+
+    .session-modal-content ul {
+        font-size: 14px;
+    }
+
+    .session-modal-close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 22px;
+        cursor: pointer;
+    }
+</style>
 
 <section class="container-my-sessions">
     <h1>Sesiones de la semana</h1>
@@ -181,8 +221,26 @@
                         <h5>{{ $session->title }}</h5>
                         <p>{{ $session->reservations->count() }} clientes</p>
                     </div>
-                    <a class="buttons-details" href="{{ route('coach.session-detail', $session) }}">Ver detalles</a>
+                    <button type="button" onclick="openSessionModal('{{ $session->id }}')">
+                        Ver detalles
+                    </button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Modal oculto-->
+        <div id="modal-{{ $session->id }}" class="session-modal" style="display:none;">
+            <div class="session-modal-content">
+                <span class="session-modal-close" onclick="closeSessionModal('{{ $session->id }}')">&times;</span>
+                <h2>{{ $session->title }}</h2>
+                <p><strong>Fecha:</strong> {{ $session->start_time->locale('es')->translatedFormat('l j \\d\\e F Y') }}</p>
+                <p><strong>Horario:</strong> {{ $session->start_time->format('H:i') }} - {{ $session->end_time->format('H:i') }}</p>
+                <p><strong>Clientes inscritos:</strong> {{ $session->reservations->count() }}</p>
+                <ul>
+                    @foreach($session->reservations as $res)
+                    <li>· {{ $res->user->name }}</li>
+                    @endforeach
+                </ul>
             </div>
         </div>
         @endforeach
@@ -192,7 +250,6 @@
     <p>No hay sesiones programadas para esta semana.</p>
     @endforelse
 </section>
-
 
 <script>
     document.querySelectorAll('.accordion-toggle').forEach(toggle => {
@@ -217,4 +274,23 @@
             }
         });
     });
+
+    //Modal
+    function openSessionModal(id) {
+        const modal = document.getElementById(`modal-${id}`);
+        modal.style.display = 'flex';
+
+        modal.addEventListener('click', function(e) {
+            if (!e.target.closest('.session-modal-content')) {
+                modal.style.display = 'none';
+            }
+        }, {
+            once: true
+        });
+    }
+
+    function closeSessionModal(id) {
+        const modal = document.getElementById(`modal-${id}`);
+        modal.style.display = 'none';
+    }
 </script>
