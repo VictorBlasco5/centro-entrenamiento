@@ -2,83 +2,88 @@
     .navbar {
         background-color: #000000ff;
         font-family: var(--font-jost-regular);
-    }
-
-    .navbar-container {
-        padding: 16px 20px;
         display: flex;
         justify-content: center;
-        align-items: center;
+        padding: 10px 20px;
     }
 
-    .navbar-logo {
-        height: 40px;
-        width: auto;
-        display: block;
-    }
-
-    .navbar-links {
+    .navbar .nav-items {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 30px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
     }
 
-    .btn {
-        text-decoration: none;
-        font-size: 14px;
-        padding: 8px 14px;
-        border-radius: 4px;
-        cursor: pointer;
-        border: none;
-    }
-
-    .btn-link {
-        background: none;
-        color: #ffffffff;
-    }
-
-    .btn-link:hover {
-        text-decoration: underline;
+    .navbar a,
+    .navbar button {
         color: white;
+        text-decoration: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .navbar a:hover,
+    .navbar button:hover {
+        color: #f0f0f0;
+        text-decoration: underline;
+    }
+
+    .navbar .logo img {
+        height: 35px;
     }
 </style>
 
-<header class="navbar">
-    <div class="navbar-container">
-        <nav class="navbar-links">
-            @if(!Auth::check() || Auth::user()->role !== 'coach')
-            <!-- Siempre visible para visitantes y clientes -->
-            <a href="{{ url('/') }}" class="btn btn-link">Inicio</a>
-            <a href="{{ url('/trainers') }}" class="btn btn-link">Entrenadores</a>
-            <a href="{{ url('/contact') }}" class="btn btn-link">Contacto</a>
-            @endif
-
-            <!-- Logo siempre visible -->
-            <a class="navbar-logo">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="navbar-logo">
+<nav class="navbar">
+    <ul class="nav-items">
+        @guest
+        <li><a href="{{ route('dashboard') }}">Inicio</a></li>
+        <li><a href="{{ url('/trainers') }}">Entrenadores</a></li>
+        <li><a href="{{ url('/contact') }}">Contacto</a></li>
+        <li class="logo">
+            <a href="{{ route('dashboard') }}">
+                <img src="/images/logo.png" alt="Logo">
             </a>
-
-            @auth
-            <!-- Solo para usuarios logueados -->
-            @if(Auth::user()->role === 'coach')
-            <a href="{{ route('coach') }}" class="btn btn-link">Sesiones</a>
-            @else
-            <a href="{{ route('dashboard') }}" class="btn btn-link">Calendario</a>
-            <a href="{{ route('sessions') }}" class="btn btn-link">Mis sesiones</a>
-            @endif
-            <a href="{{ route('profile.edit') }}" class="btn btn-link">Perfil</a>
-
-            <form method="POST" action="{{ route('logout') }}">
+        </li>
+        <li><a href="{{ route('login') }}">Iniciar sesión</a></li>
+        <li><a href="{{ route('register') }}">Registro</a></li>
+        @else
+        @if(Auth::user()->role === 'client')
+        <li><a href="{{ route('dashboard') }}">Inicio</a></li>
+        <li><a href="{{ url('/trainers') }}">Entrenadores</a></li>
+        <li><a href="{{ url('/contact') }}">Contacto</a></li>
+        <li class="logo">
+            <a href="{{ route('dashboard') }}">
+                <img src="/images/logo.png" alt="Logo">
+            </a>
+        </li>
+        <li><a href="{{ route('sessions.calendar') }}">Calendario</a></li>
+        <li><a href="{{ route('sessions') }}">Mis sesiones</a></li>
+        <li><a href="{{ route('profile.edit') }}">Perfil</a></li>
+        <li>
+            <form action="{{ route('logout') }}" method="POST" class="inline">
                 @csrf
-                <button type="submit" class="btn btn-link">Cerrar sesión</button>
+                <button type="submit">Cerrar sesión</button>
             </form>
-            @else
-            <!-- Visitantes no logueados -->
-            <a href="{{ route('login') }}" class="btn btn-link">Iniciar sesión</a>
-            @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="btn btn-link">Registro</a>
-            @endif
-            @endauth
-        </nav>
-    </div>
-</header>
+        </li>
+        @elseif(Auth::user()->role === 'coach' || Auth::user()->role === 'admin')
+        <li><a href="{{ route('coach') }}">Sesiones</a></li>
+        <li class="logo">
+            <a href="{{ route('dashboard') }}">
+                <img src="/images/logo.png" alt="Logo">
+            </a>
+        </li>
+        <li><a href="{{ route('profile.edit') }}">Perfil</a></li>
+        <li>
+            <form action="{{ route('logout') }}" method="POST" class="inline">
+                @csrf
+                <button type="submit">Cerrar sesión</button>
+            </form>
+        </li>
+        @endif
+        @endguest
+    </ul>
+</nav>
