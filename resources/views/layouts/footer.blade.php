@@ -15,9 +15,11 @@
 
     .links-footer {
         display: flex;
+        flex-wrap: wrap;
         flex-direction: row;
         gap: 15px;
-        width: auto;
+        width: 200px;
+        line-height: 1;
     }
 
     .links-footer a {
@@ -44,14 +46,39 @@
 <section class="container-footer">
     <div class="row">
         <div class="links-footer">
-            <a href="{{ url('/') }}" class="btn btn-link">Inicio</a>
+
+            <!-- Persona no logueada -->
+            {{-- Persona no logueada --}}
+            @if(!Auth::check())
+            <a href="{{ url('/') }}">Inicio</a>
+            <a href="{{ url('/trainers') }}">Entrenadores</a>
+            <a href="{{ url('/contact') }}">Contacto</a>
+            @endif
+
+            <!-- Cliente -->
             @auth
-            <a href="{{ route('dashboard') }}" class="btn btn-link">Calendario</a>
+            @if(Auth::user()->role === 'client')
+            <a href="{{ url('/') }}">Inicio</a>
+            <a href="{{ url('/trainers') }}">Entrenadores</a>
+            <a href="{{ url('/contact') }}">Contacto</a>
+            <a href="{{ route('sessions.calendar') }}">Calendario</a>
+            <a href="{{ route('sessions') }}">Mis sesiones</a>
+            @elseif(Auth::user()->role === 'coach' || Auth::user()->role === 'admin')
+            <!-- Coach/Admin -->
+            <a href="{{ route('sessions') }}">Mis sesiones</a>
+            @endif
             @endauth
-            <a href="{{ url('/trainers') }}" class="btn btn-link">Entrenadores</a>
-            <a href="{{ url('/contact') }}" class="btn btn-link">Contacto</a>
+
         </div>
-        <div class="copyright">© 2026 Centro de Entrenamiento. Todos los derechos reservados.</div>
-        <div class="instagram"> <a href="https://www.instagram.com" class="btn btn-link"><i class="fa-brands fa-instagram"></i></a></div>
+
+        <div class="copyright">
+            © 2026 Centro de Entrenamiento. Todos los derechos reservados.
+        </div>
+
+        <div class="instagram">
+            <a href="https://www.instagram.com">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+        </div>
     </div>
 </section>
