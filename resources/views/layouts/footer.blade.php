@@ -19,7 +19,7 @@
             <a href="{{ url('/') }}">Inicio</a>
             <a href="{{ url('/trainers') }}">Entrenadores</a>
             <a href="{{ url('/contact') }}">Contacto</a>
-            <a href="{{ route('dashboard') }}">Calendario</a>
+            <a href="{{ route('calendar') }}">Calendario</a>
             <a href="{{ route('sessions') }}">Mis sesiones</a>
             @elseif(Auth::user()->role === 'coach' || Auth::user()->role === 'admin')
             <!-- Coach/Admin -->

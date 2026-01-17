@@ -5,7 +5,7 @@
         <li><a href="{{ url('/trainers') }}">Entrenadores</a></li>
         <li><a href="{{ url('/contact') }}">Contacto</a></li>
         <li class="logo">
-            <a href="{{ route('dashboard') }}">
+            <a href="{{ route('calendar') }}">
                 <img src="/images/logo.png" alt="Logo">
             </a>
         </li>
@@ -17,11 +17,11 @@
         <li><a href="{{ url('/trainers') }}">Entrenadores</a></li>
         <li><a href="{{ url('/contact') }}">Contacto</a></li>
         <li class="logo">
-            <a href="{{ route('dashboard') }}">
+            <a href="{{ route('calendar') }}">
                 <img src="/images/logo.png" alt="Logo">
             </a>
         </li>
-        <li><a href="{{ route('dashboard') }}">Calendario</a></li>
+        <li><a href="{{ route('calendar') }}">Calendario</a></li>
         <li><a href="{{ route('sessions') }}">Mis sesiones</a></li>
         <li><a href="{{ route('profile.edit') }}">Perfil</a></li>
         <li>
@@ -33,7 +33,7 @@
         @elseif(Auth::user()->role === 'coach' || Auth::user()->role === 'admin')
         <li><a href="{{ route('coach') }}">Sesiones</a></li>
         <li class="logo">
-            <a href="{{ route('dashboard') }}">
+            <a href="{{ route('calendar') }}">
                 <img src="/images/logo.png" alt="Logo">
             </a>
         </li>

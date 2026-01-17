@@ -25,7 +25,7 @@ class ClientController extends Controller
             ];
         });
 
-        return view('dashboard', compact('sessions'));
+        return view('calendar', compact('sessions'));
     }
 
 
@@ -133,6 +133,6 @@ class ClientController extends Controller
 
         $sessions->loadCount('reservations');
 
-        return view('users.sessions-calendar', compact('sessions'));
+        return view('users.my-sessions-calendar', compact('sessions'));
     }
 }

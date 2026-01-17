@@ -29,8 +29,8 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 Route::middleware([Authenticate::class])->group(function () {
 
     // Dashboard principal del cliente
-    Route::get('/dashboard', [ClientController::class, 'dashboard'])
-        ->name('dashboard');
+    Route::get('/calendar', [ClientController::class, 'dashboard'])
+        ->name('calendar');
 
     // Perfil del usuario
     Route::get('/profile', [ProfileController::class, 'edit'])
@@ -47,8 +47,8 @@ Route::middleware([Authenticate::class])->group(function () {
     //Mis sesiones reservadas
     Route::get('/sessions', [ClientController::class, 'mySessions'])
         ->name('sessions');
-    Route::get('/users/sessions-calendar', [ClientController::class, 'annualCalendar'])
-        ->name('users.sessions-calendar');
+    Route::get('/users/my-sessions-calendar', [ClientController::class, 'annualCalendar'])
+        ->name('users.my-sessions-calendar');
 
     Route::delete('/sessions/{session}/cancel', [ClientController::class, 'cancel'])
         ->name('sessions.cancel');
