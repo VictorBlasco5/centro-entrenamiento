@@ -139,6 +139,7 @@
     /* Número del día clicable */
     .fc-daygrid-day-number {
         cursor: pointer;
+        color: white;
     }
 
     /* Añadir h en horas mes */
@@ -154,6 +155,7 @@
     /* Fondo oscuro para la fila de los días de la semana */
     .fc .fc-col-header-cell {
         background-color: #222222;
+        color: white;
     }
 
     /* Añadir un punto antes de cada evento */
