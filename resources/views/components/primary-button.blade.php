@@ -7,7 +7,7 @@
         font-semibold text-xs
         text-white tracking-widest
         hover:bg-black
-        focus:outline-none focus:ring-2 focus:ring-white
+        focus:outline-none
     '
 ]) }}>
     {{ $slot }}
