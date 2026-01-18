@@ -4,6 +4,7 @@
 @import 'trainers.css';
 @import 'navbar.css';
 @import 'coach.css';
+@import 'users.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
