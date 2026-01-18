@@ -38,3 +38,60 @@
 .instagram i {
     font-size: 20px
 }
+
+/* Media query para tablets y móviles */
+@media (max-width: 768px) {
+    .container-footer {
+        font-size: 10px; /* fuente un poco más pequeña */
+        padding: 10px 20px;
+        text-align: center; /* centrar contenido */
+    }
+
+    .row {
+        flex-direction: column; /* apila verticalmente */
+        align-items: center;
+        gap: 10px; /* espacio entre elementos */
+        padding: 15px 20px;
+    }
+
+    .links-footer {
+        width: 100%; /* ocupa todo el ancho disponible */
+        justify-content: center; /* centrado de los links */
+        gap: 10px; /* reduce el gap */
+    }
+
+    .links-footer a {
+        font-size: 11px; /* un poco más pequeño */
+    }
+
+    .copyright {
+        padding-right: 0; /* elimina espacio lateral */
+        margin-top: 10px;
+    }
+
+    .instagram {
+        width: 18px;
+        height: 18px;
+        margin-top: 5px;
+    }
+
+    .instagram i {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container-footer {
+        font-size: 9px;
+        padding: 8px 10px;
+    }
+
+    .links-footer {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .row {
+        padding: 10px;
+    }
+}
