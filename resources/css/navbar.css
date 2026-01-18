@@ -34,3 +34,51 @@
 .navbar .logo img {
     height: 35px;
 }
+
+.hamburger {
+    display: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+.mobile-logo {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        position: relative;
+    }
+
+    .navbar .nav-items {
+        display: none;
+        flex-direction: column;
+        background-color: #000000;
+        position: absolute;
+        top: 60px;
+        width: 100%;
+        padding: 10px 0;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .navbar .nav-items.active {
+        display: flex;
+    }
+
+    .hamburger {
+        display: block;
+        font-size: 22px;
+        margin-left: auto;
+    }
+
+    .desktop-logo {
+        display: none;
+    }
+
+    .mobile-logo {
+        display: block;
+        margin-right: auto;
+    }
+}
