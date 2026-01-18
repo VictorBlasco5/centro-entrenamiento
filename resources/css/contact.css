@@ -15,11 +15,12 @@
         display: flex;
         justify-content: center;
         flex-direction: row;
+        background-color: #0f0f0fa4;
+
     }
 
     .left-contact {
         width: 70vw;
-        background-color: #0f0f0fa4;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -29,7 +30,6 @@
 
     .right-contact {
         width: 70vw;
-        background-color: #0f0f0fa4;
         display: flex;
         justify-content: center;
         align-items: flex-start;
@@ -92,11 +92,12 @@
 
     .btn-contact {
         width: 150px;
-        margin: 10px 10px 10px 10px;
         background-color: black;
         color: white;
         border-radius: 0;
-        border: 1px solid #373737a4; 
+        border: 1px solid #373737a4;
+        padding: 4px 10px;
+        font-size: 15px;
     }
 
     .btn-contact:hover {
@@ -109,7 +110,11 @@
         color: white;
         text-decoration: none;
         margin: 10px 0px 10px 0px;
+        font-size: 14px;
+    }
 
+    .hour {
+        margin: 10px 0px 10px 0px;
     }
 
     .street,
@@ -140,4 +145,69 @@
     .toast.show {
         opacity: 1;
         transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+        .subcontainer-contact {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90vw;
+        }
+
+        .left-contact {
+            width: 90vw;
+            padding: 0px 40px 0px 40px;
+        }
+
+        .left-contact h1 {
+            font-size: 25px;
+        }
+
+        .input-name {
+            height: 30px;
+            margin: 10px 0px 10px 0px;
+        }
+
+        .input-name,
+        .text-contact {
+            font-size: 12px !important;
+        }
+
+        .input-name::placeholder {
+            font-size: 12px;
+        }
+
+        .input-name:focus {
+            font-size: 12px;
+        }
+
+        .text-contact::placeholder {
+            color: black;
+            opacity: 1;
+            font-size: 12px;
+        }
+
+        .text-contact:focus {
+            font-size: 12px;
+        }
+
+        .btn-contact {
+            width: 100px;
+            margin: 0;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+
+        .right-contact {
+            width: 90vw;
+            padding: 0px 40px 0px 40px;
+        }
+
+        .street a,
+        .email a,
+        .phone a,
+        .hour {
+            font-size: 12px;
+        }
     }
