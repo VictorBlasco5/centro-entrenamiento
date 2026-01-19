@@ -17,13 +17,15 @@
         <div class="box-sessions-coach">
             <div class="card-my-sessions-coach">
                 <div class="box-card-my-sessions-coach">
-                    <div class="date-my-sessions-coach">
-                        <h5>{{ $session->start_time->format('H:i') }} - {{ $session->end_time->format('H:i') }}</h5>
-                    </div>
-                    <div class="separator">-</div>
-                    <div class="type-my-sessions-coach">
-                        <h5>{{ $session->title }}</h5>
-                        <p>{{ $session->reservations->count() }} clientes</p>
+                    <div class="card-info-my-sessions">
+                        <div class="date-my-sessions-coach">
+                            <h5>{{ $session->start_time->format('H:i') }} - {{ $session->end_time->format('H:i') }}</h5>
+                        </div>
+                        <div class="separator">-</div>
+                        <div class="type-my-sessions-coach">
+                            <h5>{{ $session->title }}</h5>
+                            <p>{{ $session->reservations->count() }} clientes</p>
+                        </div>
                     </div>
                     <button type="button" onclick="openSessionModal('{{ $session->id }}')">
                         Ver detalles

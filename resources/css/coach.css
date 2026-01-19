@@ -120,7 +120,7 @@
 /* -------------------------------------------- Sesiones coach ----------------------------------------------- */
 
 .container-my-sessions-coach {
-    min-height: 80vh;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -128,7 +128,7 @@
     font-family: var(--font-jost-regular);
     background-color: black;
     color: white;
-    padding: 30px 0;
+    padding: 80px 0;
 }
 
 .container-my-sessions-coach h1 {
@@ -272,6 +272,12 @@
     background-color: black;
 }
 
+.card-info-my-sessions {
+    display: flex;
+    gap: 4px;
+    flex: 1;
+}
+
 .session-modal {
     position: fixed;
     inset: 0;
@@ -311,4 +317,71 @@
     right: 15px;
     font-size: 22px;
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+
+    .container-my-sessions-coach {
+        padding: 40px 10px;
+        height: auto;
+    }
+
+    .container-my-sessions-coach h1 {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .container-my-sessions-coach .accordion-toggle {
+        width: 90%;
+        font-size: 14px;
+    }
+
+    .accordion-content {
+        width: 90%;
+        margin: 5px 0;
+    }
+
+    .box-sessions-coach {
+        padding: 5px 10px;
+    }
+
+    .card-my-sessions-coach {
+        width: 100%;
+        height: auto;
+    }
+
+    .box-card-my-sessions-coach {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .card-info-my-sessions {
+        flex-direction: column;
+    }
+    
+    .date-my-sessions-coach,
+    .type-my-sessions-coach {
+        gap: 10px;
+        width: 100%;
+    }
+    
+    .separator {
+        display: none;
+    }
+
+    .box-card-my-sessions-coach button {
+        width: 30%;
+        padding: 6px 10px;
+        font-size: 10px;
+    }
+
+    /* Modal */
+    .session-modal-content {
+        padding: 20px;
+    }
+
+    .session-modal-content h2 {
+        padding-bottom: 5px;
+    }
 }
