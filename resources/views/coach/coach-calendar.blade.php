@@ -23,12 +23,12 @@
 
         const calendar = new FullCalendar.Calendar(calendarEl, {
             locale: 'es',
-            initialView: 'dayGridMonth',
             height: 'auto',
+            initialView: window.innerWidth < 768 ? 'listWeek' : 'dayGridMonth',
             headerToolbar: {
                 left: 'prev,next',
                 center: 'title',
-                right: 'today'
+                right: window.innerWidth < 768 ? '' : 'dayGridMonth,timeGridWeek,timeGridDay'
             },
             events: events,
         });

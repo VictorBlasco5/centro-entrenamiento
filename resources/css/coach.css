@@ -116,6 +116,30 @@
     font-size: 8px;
 }
 
+/* fullcalendar */
+@media (max-width: 768px) {
+
+    .fc-header-toolbar .fc-toolbar-chunk .fc-toolbar-title {
+        font-size: 18px;
+    }
+
+    .fc-header-toolbar .fc-toolbar-chunk {
+        font-size: 14px;
+    }
+
+    .fc-list-table .fc-list-day .fc-list-day-cushion {
+        background-color: #000000;
+    }
+
+    .fc-list-event:hover td {
+        background-color: transparent !important;
+    }
+
+    .fc-list-event-dot {
+        display: none !important;
+    }
+}
+
 
 /* -------------------------------------------- Sesiones coach ----------------------------------------------- */
 
@@ -359,13 +383,13 @@
     .card-info-my-sessions {
         flex-direction: column;
     }
-    
+
     .date-my-sessions-coach,
     .type-my-sessions-coach {
         gap: 10px;
         width: 100%;
     }
-    
+
     .separator {
         display: none;
     }
