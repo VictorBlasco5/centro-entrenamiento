@@ -25,7 +25,7 @@
         <div class="card-my-sessions">
             <div class="box-card-my-sessions">
                 <div class="date-my-sessions">
-                    <h5>{{ ucfirst($session->start_time->locale('es')->translatedFormat('l j \\d\\e F')) }}</h5>
+                    <h5>{{ $session->start_time->locale('es')->translatedFormat('l j') }}</h5>
                     <p>
                         {{ $session->start_time->format('H:i') }} -
                         {{ $session->end_time->format('H:i') }}

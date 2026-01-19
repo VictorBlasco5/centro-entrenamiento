@@ -360,3 +360,76 @@
     padding-bottom: 5px;
     margin-bottom: 5px;
 }
+
+@media (max-width: 768px) {
+
+    .container-my-sessions {
+        padding: 40px 10px;
+        min-height: auto;
+    }
+
+    .container-my-sessions h1 {
+        font-size: 22px;
+    }
+
+    .buttons-my-sessions {
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .buttons-my-sessions a {
+        width: 90%;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .container-my-sessions h2 {
+        width: 90%;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+
+    .box-sessions {
+        width: 100%;
+        padding: 5px 10px;
+    }
+
+    .card-my-sessions {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .date-my-sessions {
+        width: 40%;
+    }
+
+    .date-my-sessions h5 {
+        font-size: 13px;
+    }
+
+    .date-my-sessions p {
+        font-size: 11px;
+    }
+
+    .separator {
+        display: none;
+    }
+
+    .type-my-sessions {
+        padding-left: 0;
+    }
+
+    .type-my-sessions h5 {
+        font-size: 13px;
+    }
+
+    .type-my-sessions p {
+        font-size: 11px;
+    }
+
+    .card-my-sessions button {
+        font-size: 12px;
+    }
+}
