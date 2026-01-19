@@ -12,22 +12,26 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="antialiased bg-black" style="font-family: 'Jost-Regular', sans-serif;">
-    <div class="min-h-screen flex flex-col justify-center items-center pt-6">
+<body class="antialiased bg-black flex flex-col min-h-screen" style="font-family: 'Jost-Regular', sans-serif;">
 
-        <!-- Logo -->
-        <div class="mb-6">
+    @include('layouts.navigation')
+
+    <main class="flex-grow flex flex-col items-center pt-4 p-4 gap-6">
+
+        <div>
             <a href="/">
-                <img src="/images/logo.png" alt="Logo" class="w-48 mx-auto">
+                <img src="/images/logo.png" alt="Logo" class="w-40 mx-auto">
             </a>
         </div>
 
-        <!-- Card -->
         <div class="w-full sm:max-w-md px-6 py-6 bg-black border border-[#d0d0d05d] rounded-lg">
             {{ $slot }}
         </div>
 
-    </div>
+    </main>
+
+    @include('layouts.footer')
+
 </body>
 
 </html>
