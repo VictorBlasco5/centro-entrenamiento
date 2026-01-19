@@ -49,6 +49,7 @@
 @media (max-width: 768px) {
     .navbar {
         position: relative;
+        z-index: 9999;
     }
 
     .navbar .nav-items {
@@ -56,11 +57,12 @@
         flex-direction: column;
         background-color: #000000;
         position: absolute;
-        top: 60px;
+        top: 100%;
         width: 100%;
         padding: 10px 0;
         gap: 10px;
         text-align: center;
+        z-index: 10000;
     }
 
     .navbar .nav-items.active {

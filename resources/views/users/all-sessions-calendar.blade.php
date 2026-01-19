@@ -50,14 +50,14 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {
             locale: 'es',
             height: 'auto',
-            initialView: 'dayGridMonth',
+            initialView: window.innerWidth < 768 ? 'listWeek' : 'dayGridMonth',
             allDaySlot: false,
             slotMinTime: '08:00:00',
             slotMaxTime: '23:00:00',
             headerToolbar: {
-                left: 'prev,next today',
+                left: 'prev,next',
                 center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                right: window.innerWidth < 768 ? 'listWeek' : 'dayGridMonth,timeGridWeek,timeGridDay'
             },
             events: events,
 
