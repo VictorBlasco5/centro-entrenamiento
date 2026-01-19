@@ -23,7 +23,7 @@
             <a href="{{ route('sessions') }}">Mis sesiones</a>
             @elseif(Auth::user()->role === 'coach' || Auth::user()->role === 'admin')
             <!-- Coach/Admin -->
-            <a href="{{ route('coach') }}">Mis sesiones</a>
+
             @endif
             @endauth
 
