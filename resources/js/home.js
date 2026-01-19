@@ -7,9 +7,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const minOpacity = 0;
     const maxScale = 1;
     const minScale = 0.95;
+    const isMobile = window.innerWidth <= 768;
 
     cards.forEach((card, i) => {
-        card.classList.add(i % 2 === 0 ? "from-left" : "from-right");
+        if (!isMobile) {
+            card.classList.add(i % 2 === 0 ? "from-left" : "from-right");
+        } else {
+            if (i === 0) {
+                card.style.transform = "translateX(0) scale(1)";
+                card.style.opacity = "1";
+                card.style.pointerEvents = "auto";
+            } else {
+                card.classList.add("from-left");
+            }
+        }
     });
 
     const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -23,6 +34,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const range = startY - endY || 1;
 
         cards.forEach((card, index) => {
+            // Móvil: primera card siempre visible
+            if (isMobile && index === 0) return;
+
             const rect = card.getBoundingClientRect();
             const top = rect.top;
 
