@@ -8,7 +8,7 @@
                 <h3>El fundador</h3>
                 <img src="/images/history/fundador.png" alt="">
             </div>
-            <p>El proyecto nace de la mano de Carlos, entrenador personal y apasionado del entrenamiento y la salud desde muy joven. Tras años formándose y trabajando en diferentes centros deportivos, Víctor desarrolló una forma muy clara de entender el entrenamiento: cercana, consciente y adaptada a cada persona.
+            <p>El proyecto nace de la mano de Carlos, entrenador personal y apasionado del entrenamiento y la salud desde muy joven. Tras años formándose y trabajando en diferentes centros deportivos, Carlos desarrolló una forma muy clara de entender el entrenamiento: cercana, consciente y adaptada a cada persona.
                 Su experiencia le permitió conocer de primera mano tanto los aciertos como las carencias del sector, despertando la inquietud de crear algo propio, alineado con sus valores profesionales y personales.
             </p>
         </div>

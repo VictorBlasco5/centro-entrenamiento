@@ -25,6 +25,23 @@
     margin: 0;
 }
 
+@media (max-width: 768px) {
+
+    .img-home {
+        height: 20em;
+    }
+
+    .title-banner-home {
+        font-size: 30px;
+        padding: 0 20px;
+    }
+
+    .subtitle-banner-home {
+        font-size: 15px;
+        padding: 0 20px;
+    }
+}
+
 /* ----------------------- seccion history ---------------------------*/
 
 .title-history {
@@ -37,22 +54,19 @@
     width: 100%;
     background-color: #000;
     color: white;
+    font-family: var(--font-jost-regular);
 }
 
 /* === BANNER === */
 .img-history {
-    width: 100%;
-    height: 20em;
-    background-image: url('/public/images/history/banner-history.png');
-    background-size: cover;
-    background-position: center;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: 1em;
 }
 
 .title-history {
-    font-size: 60px;
+    font-size: 40px;
     font-weight: 700;
     letter-spacing: 2px;
 }
@@ -124,4 +138,41 @@
 .card-history.show {
     opacity: 1;
     transform: translateX(0) scale(1);
+}
+
+@media (max-width: 576px) {
+
+    .img-home {
+        height: 15em;
+    }
+
+    .title-history {
+        font-size: 22px;
+        padding: 0 10px;
+    }
+
+    .container-history .card-history {
+        width: 95%;
+        gap: 20px;
+        padding: 1em;
+        flex-direction: column;
+    }
+
+    .subcontainer-history h3 {
+        font-size: 16px;
+        align-self: flex-start;
+    }
+
+    .subcontainer-history p {
+        font-size: 12px;
+    }
+
+    .subcontainer-history img {
+        max-width: 90%;
+        margin: 0 auto;
+    }
+
+    .card-history .media-history {
+        align-items: center;
+    }
 }
