@@ -54,6 +54,8 @@
             allDaySlot: false,
             slotMinTime: '08:00:00',
             slotMaxTime: '23:00:00',
+            slotDuration: '00:15:00',
+            slotLabelInterval: '01:00:00',
             headerToolbar: {
                 left: 'prev,next',
                 center: 'title',
@@ -104,11 +106,15 @@
                     return {
                         html: `
                     <div class="event-content day-event">
-                        <span><b>${props.sessionType}</b></span>
-                        <span>${start} - ${end}</span>
-                        <span>Entrenador: ${props.trainer}</span>
-                        <span>Reservas: ${slots}</span>
-                        <button class="btn-reserve" onclick="reserve(${props.sessionId})">Apuntarme</button>
+                        <div>
+                            <span><b>${props.sessionType}</b></span>
+                            <span>${start} - ${end}</span>
+                            <span>Entrenador: ${props.trainer}</span>
+                            <span>Reservas: ${slots}</span>
+                            </div>
+                        <div>
+                            <button class="btn-reserve" onclick="reserve(${props.sessionId})">Apuntarme</button>
+                        </div>
                     </div>
                     `
                     };

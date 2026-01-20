@@ -229,6 +229,40 @@
     background-color: #222222;
 }
 
+@media (max-width: 768px) {
+
+    .fc-timeGridDay-view .event-content.day-event {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 6px 20px;
+        font-size: 13px;
+    }
+
+    /* Columna de info */
+    .fc-timeGridDay-view .event-content.day-event>div:first-child {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Columna del botón */
+    .fc-timeGridDay-view .event-content.day-event>div:last-child {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .fc-timeGridDay-view .btn-reserve {
+        font-size: 12px;
+    }
+
+    /* Quitar el punto en vista DÍA para móvil */
+    .fc-timeGridDay-view .event-content.day-event>*::before {
+        content: none;
+    }
+}
+
+
 /* ---------------------------------- MY SESSIONS AND HISTORY MY SESSIONS ---------------------------- */
 .container-my-sessions {
     min-height: 80vh;
