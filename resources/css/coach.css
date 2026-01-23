@@ -162,6 +162,34 @@
     font-weight: bold;
 }
 
+.week-navigation {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    margin-bottom: 20px;
+}
+
+.week-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.week-nav-btn:hover {
+    transform: scale(1.2);
+}
+
+#weekly-sessions-container {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .container-my-sessions-coach h2 {
     width: 62%;
     font-size: 18px;
@@ -355,6 +383,10 @@
     .container-my-sessions-coach h1 {
         font-size: 20px;
         text-align: center;
+    }
+
+    .week-nav-btn:hover {
+        transform: none;
     }
 
     .container-my-sessions-coach .accordion-toggle {
