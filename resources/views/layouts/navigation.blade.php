@@ -8,7 +8,6 @@
         @guest
         <li><a href="{{ route('home') }}">Inicio</a></li>
         <li><a href="{{ url('/trainers') }}">Entrenadores</a></li>
-        <li><a href="{{ url('/contact') }}">Contacto</a></li>
         <li class="logo desktop-logo">
             <img src="/images/logo.png" alt="Logo">
         </li>
@@ -18,11 +17,10 @@
         @if(Auth::user()->role === 'client')
         <li><a href="{{ route('home') }}">Inicio</a></li>
         <li><a href="{{ url('/trainers') }}">Entrenadores</a></li>
-        <li><a href="{{ url('/contact') }}">Contacto</a></li>
+        <li><a href="{{ route('calendar') }}">Calendario</a></li>
         <li class="logo desktop-logo">
             <img src="/images/logo.png" alt="Logo">
         </li>
-        <li><a href="{{ route('calendar') }}">Calendario</a></li>
         <li><a href="{{ route('sessions') }}">Mis sesiones</a></li>
         <li><a href="{{ route('profile.edit') }}">Perfil</a></li>
         <li>
