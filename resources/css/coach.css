@@ -222,6 +222,8 @@
 .date-my-sessions-coach {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     position: relative;
     width: 25%;
 }
@@ -347,7 +349,7 @@
 
     .container-my-sessions-coach {
         padding: 40px 10px;
-        height: auto;
+        min-height: 70vh;
     }
 
     .container-my-sessions-coach h1 {
@@ -386,6 +388,7 @@
 
     .date-my-sessions-coach,
     .type-my-sessions-coach {
+        align-items: flex-start;
         gap: 10px;
         width: 100%;
     }
@@ -407,5 +410,9 @@
 
     .session-modal-content h2 {
         padding-bottom: 5px;
+    }
+
+    .container-calendar {
+        display: none;
     }
 }
