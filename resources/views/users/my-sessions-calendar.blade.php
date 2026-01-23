@@ -6,6 +6,12 @@
     .fc-event {
         pointer-events: none;
     }
+
+    @media (max-width: 768px) {
+        .calendar-bg {
+            min-height: 70vh;
+        }
+    }
 </style>
 
 <!-- FullCalendar CDN -->
