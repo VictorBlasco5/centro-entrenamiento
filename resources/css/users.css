@@ -265,7 +265,7 @@
 
 /* ---------------------------------- MY SESSIONS AND HISTORY MY SESSIONS ---------------------------- */
 .container-my-sessions {
-    min-height: 80vh;
+    min-height: 85vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -399,7 +399,7 @@
 
     .container-my-sessions {
         padding: 40px 10px;
-        min-height: auto;
+        min-height: 70vh;
     }
 
     .container-my-sessions h1 {
