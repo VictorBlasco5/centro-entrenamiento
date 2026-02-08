@@ -10,7 +10,7 @@
         @endif
 
         <!-- Formulario de creación -->
-        <div class="mb-6 p-4 border rounded">
+        <div class="mb-6 p-4 border rounded bg-black/20">
             <h2 class="font-bold mb-2">Crear nueva sesión</h2>
             <form action="{{ route('training.store') }}" method="POST" class="space-y-3">
                 @csrf
@@ -20,7 +20,7 @@
                 <input type="datetime-local" name="start_time" class="w-full border p-2" required>
                 <input type="datetime-local" name="end_time" class="w-full border p-2" required>
                 <input type="number" name="max_clients" placeholder="Plazas máximas" class="w-full border p-2" required>
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Guardar</button>
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Guardar</button>
             </form>
         </div>
 
@@ -30,7 +30,7 @@
             @foreach([10,20,30,40,50] as $size)
             <button
                 onclick="changePerPage({{ $size }})"
-                class="px-3 py-1 rounded border {{ $perPage == $size ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700' }}">
+                class="px-3 py-1 rounded border {{ $perPage == $size ? 'bg-blue-400 text-white' : 'bg-gray-200 text-gray-700' }}">
                 {{ $size }}
             </button>
             @endforeach
@@ -38,9 +38,9 @@
 
         <!-- Tabla de sesiones -->
         <div id="sessions-list">
-            <table class="w-full border">
+            <table class="w-full border bg-black/20">
                 <thead id="sessions-header">
-                    <tr class="bg-gray-100">
+                    <tr class="bg-black/40">
                         <th class="p-2 border">Título</th>
                         <th class="p-2 border">Descripción</th>
                         <th class="p-2 border">Entrenador</th>
@@ -78,14 +78,14 @@
                             <input type="number" name="max_clients" value="{{ $session->max_clients }}" disabled form="form-{{ $session->id }}" class="border p-1 w-20 text-center editable">
                         </td>
                         <td class="p-2 border space-x-2">
-                            <button type="button" class="edit-btn bg-blue-600 text-white px-2 py-1 rounded">Editar</button>
-                            <button type="submit" form="form-{{ $session->id }}" class="save-btn bg-green-600 text-white px-2 py-1 rounded hidden">Guardar</button>
+                            <button type="button" class="edit-btn bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded">Editar</button>
+                            <button type="submit" form="form-{{ $session->id }}" class="save-btn bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded hidden">Guardar</button>
                         </td>
                         <td class="p-2 border">
                             <form action="{{ route('training.destroy', $session) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="bg-red-600 text-white px-2 py-1 rounded" onclick="return confirm('¿Eliminar sesión?')">Eliminar</button>
+                                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded" onclick="return confirm('¿Eliminar sesión?')">Eliminar</button>
                             </form>
                         </td>
                     </tr>
