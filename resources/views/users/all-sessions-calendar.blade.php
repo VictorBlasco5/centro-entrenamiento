@@ -26,6 +26,7 @@
 </section>
 
 <script>
+    let calendar;
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
 
@@ -34,21 +35,21 @@
         // Convertimos las sesiones al formato de FullCalendar
         var events = sessions.map(function(session) {
             return {
-                id: session.id,
+                id: String(session.id),
                 title: session.title,
                 start: session.start_time,
                 end: session.end_time,
                 extendedProps: {
-                    maxClients: session.max_clients,
+                    maxClients: Number(session.max_clients),
                     trainer: session.trainer,
-                    reservationsCount: session.reservationsCount,
+                    reservationsCount: Number(session.reservationsCount || 0),
                     sessionId: session.id,
                     sessionType: session.title
                 }
             };
         });
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
+        calendar = new FullCalendar.Calendar(calendarEl, {
             locale: 'es',
             height: 'auto',
             initialView: window.innerWidth < 768 ? 'listWeek' : 'dayGridMonth',
@@ -66,7 +67,6 @@
 
             eventClick: function(info) {
                 info.jsEvent.preventDefault();
-
                 calendar.gotoDate(info.event.start);
                 calendar.changeView('timeGridDay');
             },
@@ -89,21 +89,21 @@
                     hour: '2-digit',
                     minute: '2-digit'
                 }) : '';
-                let slots = props.reservationsCount + '/' + props.maxClients;
+                const reservationsCount = Number(props.reservationsCount || 0);
+                const maxClients = Number(props.maxClients || 0);
+                let slots = reservationsCount + '/' + maxClients;
 
-                // VISTA SEMANA → tipo + reservas + botón
                 if (view === 'timeGridWeek') {
                     return {
-                        html: `
-                    <div class="event-content week-event">
-                        <span><b>${props.sessionType}</b></span>
-                    </div>
-                    `
+                        html: `<div class="event-content week-event"><span><b>${props.sessionType}</b></span></div>`
                     };
                 }
 
-                // VISTA DÍA → toda la info
                 if (view === 'timeGridDay') {
+                    let isFull = reservationsCount >= maxClients;
+                    let buttonHTML = isFull ? '<button class="btn-reserve" disabled>Llena</button>' :
+                        `<button class="btn-reserve" onclick="reserve(${props.sessionId})">Apuntarme</button>`;
+
                     return {
                         html: `
                     <div class="event-content day-event">
@@ -112,9 +112,9 @@
                             <span>${start} - ${end}</span>
                             <span>Entrenador: ${props.trainer}</span>
                             <span>Reservas: ${slots}</span>
-                            </div>
+                        </div>
                         <div>
-                            <button class="btn-reserve" onclick="reserve(${props.sessionId})">Apuntarme</button>
+                            ${buttonHTML}
                         </div>
                     </div>
                     `
@@ -126,35 +126,66 @@
         calendar.render();
     });
 
-    // Función para apuntarse a una sesión
-    function reserve(sessionId) {
-        Swal.fire({
-            title: '<span style="font-weight:600; font-size:20px; color:#1f2937;">Confirmar reserva</span>',
-            showCancelButton: true,
-            confirmButtonText: 'Reservar',
-            cancelButtonText: 'Cancelar',
-            reverseButtons: true,
-            buttonsStyling: false,
-            customClass: {
-                popup: 'swal-fine-popup',
-                confirmButton: 'swal-fine-confirm',
-                cancelButton: 'swal-fine-cancel',
-                icon: 'swal-fine-icon'
-            }
-        }).then(result => {
-            if (!result.isConfirmed) return;
+    // Reemplaza la lógica para forzar re-render: eliminamos y re-agregamos el evento
+    function updateEventReservations(sessionId, newCount) {
+        const event = calendar.getEventById(String(sessionId));
+        if (!event) return;
 
-            fetch(`/sessions/${sessionId}/reserve`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(res => res.json())
-                .then(data => showSuccessToast(data.message || 'Reserva realizada'))
-                .catch(() => showErrorToast('Error al reservar'));
+        const eventData = {
+            id: event.id,
+            title: event.title,
+            start: event.start, // Date object ok
+            end: event.end,
+            extendedProps: Object.assign({}, event.extendedProps, {
+                reservationsCount: Number(newCount)
+            })
+        };
+
+        event.remove();
+        calendar.addEvent(eventData);
+    }
+
+    // Función para apuntarse a una sesión
+    const result = await Swal.fire({
+        title: '<span style="font-weight:600; font-size:20px; color:#1f2937;">Confirmar reserva</span>',
+        showCancelButton: true,
+        confirmButtonText: 'Reservar',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true,
+        buttonsStyling: false,
+        customClass: {
+            popup: 'swal-fine-popup',
+            confirmButton: 'swal-fine-confirm',
+            cancelButton: 'swal-fine-cancel',
+            icon: 'swal-fine-icon'
+        }
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+        const res = await fetch(`/sessions/${sessionId}/reserve`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json'
+            }
         });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.message || 'Error al reservar');
+
+        showSuccessToast(data.message || 'Reserva realizada');
+
+        // Si el backend devuelve reservationsCount lo usamos (recomendado). Si no, incrementamos localmente.
+        const newCount = (typeof data.reservationsCount !== 'undefined') ?
+            Number(data.reservationsCount) :
+            (Number(calendar.getEventById(String(sessionId)).extendedProps.reservationsCount || 0) + 1);
+
+        updateEventReservations(sessionId, newCount);
+    } catch (err) {
+        showErrorToast(err.message || 'Error al reservar');
     }
 
     const TOAST_DURATION = 3000;
@@ -165,7 +196,6 @@
         toast.className = `toast ${type}`;
         toast.innerHTML = `<span>${message}</span><div class="toast-progress"></div>`;
         container.appendChild(toast);
-
         // Barra de progreso animada
         const progress = toast.querySelector('.toast-progress');
         progress.style.width = '100%';
@@ -173,11 +203,9 @@
             progress.style.transition = `width ${TOAST_DURATION}ms linear`;
             progress.style.width = '0%';
         }, 50);
-
-        // Quitar toast después de TOAST_DURATION
         setTimeout(() => {
             toast.classList.add('hide');
-            setTimeout(() => toast.remove(), 400); // coincide con animación de salida
+            setTimeout(() => toast.remove(), 400);
         }, TOAST_DURATION);
     }
 

@@ -59,7 +59,13 @@ class ClientController extends Controller
             'user_id' => $userId,
         ]);
 
-        return response()->json(['message' => 'Reserva realizada con éxito']);
+        // Contar de nuevo (asegúrate de que el recuento venga del DB)
+        $reservationsCount = $session->reservations()->count();
+
+        return response()->json([
+            'message' => 'Reserva realizada con éxito',
+            'reservationsCount' => $reservationsCount
+        ]);
     }
 
     public function mySessions()
