@@ -24,131 +24,120 @@
             </form>
         </div>
 
-        {{-- Listado de sesiones --}}
-        <table class="w-full border">
-            <thead>
-                <tr class="bg-gray-100">
-                    <th class="p-2 border">Título</th>
-                    <th class="p-2 border">Descripción</th>
-                    <th class="p-2 border">Entrenador</th>
-                    <th class="p-2 border">Inicio</th>
-                    <th class="p-2 border">Fin</th>
-                    <th class="p-2 border">Plazas</th>
-                    <th class="p-2 border">Edición</th>
-                    <th class="p-2 border">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($sessions as $session)
-                <tr>
+        <!-- Botones para cantidad por página -->
+        <div class="mb-4 flex items-center space-x-2">
+            <span class="font-medium mr-2">Mostrar:</span>
+            @foreach([10,20,30,40,50] as $size)
+            <button
+                onclick="changePerPage({{ $size }})"
+                class="px-3 py-1 rounded border {{ $perPage == $size ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700' }}">
+                {{ $size }}
+            </button>
+            @endforeach
+        </div>
 
-                    {{-- FORMULARIO (vacío visualmente) --}}
-                    <form id="form-{{ $session->id }}"
-                        action="{{ route('training.update', $session) }}"
-                        method="POST">
-                        @csrf
-                        @method('PUT')
-                    </form>
-
-                    <td class="p-2 border">
-                        <input type="text"
-                            name="title"
-                            value="{{ $session->title }}"
-                            disabled
-                            form="form-{{ $session->id }}"
-                            class="border p-1 w-full editable">
-                    </td>
-                    <td><input type="text"
-                            name="description"
-                            value="{{ $session->description }}"
-                            disabled
-                            form="form-{{ $session->id }}"
-                            class="border p-1 w-full editable"></td>
-                            
-                    <td><input type="text"
-                            name="trainer_id"
-                            value="{{ $session->trainer_id }}"
-                            disabled
-                            form="form-{{ $session->id }}"
-                            class="border p-1 w-full editable"></td>
-
-                    <td class="p-2 border">
-                        <input type="datetime-local"
-                            name="start_time"
-                            value="{{ $session->start_time->format('Y-m-d\TH:i') }}"
-                            disabled
-                            form="form-{{ $session->id }}"
-                            class="border p-1 w-full editable">
-                    </td>
-
-                    <td class="p-2 border">
-                        <input type="datetime-local"
-                            name="end_time"
-                            value="{{ $session->end_time->format('Y-m-d\TH:i') }}"
-                            disabled
-                            form="form-{{ $session->id }}"
-                            class="border p-1 w-full editable">
-                    </td>
-
-                    <td class="p-2 border text-center">
-                        <input type="number"
-                            name="max_clients"
-                            value="{{ $session->max_clients }}"
-                            disabled
-                            form="form-{{ $session->id }}"
-                            class="border p-1 w-20 text-center editable">
-                    </td>
-
-                    <td class="p-2 border space-x-2">
-                        <button type="button"
-                            class="edit-btn bg-blue-600 text-white px-2 py-1 rounded">
-                            Editar
-                        </button>
-
-                        <button type="submit"
-                            form="form-{{ $session->id }}"
-                            class="save-btn bg-green-600 text-white px-2 py-1 rounded hidden">
-                            Guardar
-                        </button>
-                    </td>
-
-                    <td class="p-2 border">
-                        <form action="{{ route('training.destroy', $session) }}" method="POST">
+        <!-- Tabla de sesiones -->
+        <div id="sessions-list">
+            <table class="w-full border">
+                <thead id="sessions-header">
+                    <tr class="bg-gray-100">
+                        <th class="p-2 border">Título</th>
+                        <th class="p-2 border">Descripción</th>
+                        <th class="p-2 border">Entrenador</th>
+                        <th class="p-2 border">Inicio</th>
+                        <th class="p-2 border">Fin</th>
+                        <th class="p-2 border">Plazas</th>
+                        <th class="p-2 border">Edición</th>
+                        <th class="p-2 border">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($sessions as $session)
+                    <tr>
+                        <form id="form-{{ $session->id }}" action="{{ route('training.update', $session) }}" method="POST">
                             @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="bg-red-600 text-white px-2 py-1 rounded"
-                                onclick="return confirm('¿Eliminar sesión?')">
-                                Eliminar
-                            </button>
+                            @method('PUT')
                         </form>
-                    </td>
 
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                        <td class="p-2 border">
+                            <input type="text" name="title" value="{{ $session->title }}" disabled form="form-{{ $session->id }}" class="border p-1 w-full editable">
+                        </td>
+                        <td>
+                            <input type="text" name="description" value="{{ $session->description }}" disabled form="form-{{ $session->id }}" class="border p-1 w-full editable">
+                        </td>
+                        <td>
+                            <input type="text" name="trainer_id" value="{{ $session->trainer_id }}" disabled form="form-{{ $session->id }}" class="border p-1 w-full editable">
+                        </td>
+                        <td class="p-2 border">
+                            <input type="datetime-local" name="start_time" value="{{ $session->start_time->format('Y-m-d\TH:i') }}" disabled form="form-{{ $session->id }}" class="border p-1 w-full editable">
+                        </td>
+                        <td class="p-2 border">
+                            <input type="datetime-local" name="end_time" value="{{ $session->end_time->format('Y-m-d\TH:i') }}" disabled form="form-{{ $session->id }}" class="border p-1 w-full editable">
+                        </td>
+                        <td class="p-2 border text-center">
+                            <input type="number" name="max_clients" value="{{ $session->max_clients }}" disabled form="form-{{ $session->id }}" class="border p-1 w-20 text-center editable">
+                        </td>
+                        <td class="p-2 border space-x-2">
+                            <button type="button" class="edit-btn bg-blue-600 text-white px-2 py-1 rounded">Editar</button>
+                            <button type="submit" form="form-{{ $session->id }}" class="save-btn bg-green-600 text-white px-2 py-1 rounded hidden">Guardar</button>
+                        </td>
+                        <td class="p-2 border">
+                            <form action="{{ route('training.destroy', $session) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="bg-red-600 text-white px-2 py-1 rounded" onclick="return confirm('¿Eliminar sesión?')">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <!-- Paginación pie de tabla -->
+            <div class="mt-4">
+                {!! $sessions->appends(['perPage' => $perPage])->fragment('sessions-header')->links() !!}
+            </div>
+        </div>
+
     </div>
 
-    <!-- Script para habilitar edición -->
+    <!-- Scripts -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-
+            // Habilitar edición de filas
             document.querySelectorAll('.edit-btn').forEach(button => {
                 button.addEventListener('click', () => {
-
                     const row = button.closest('tr');
-
-                    row.querySelectorAll('.editable').forEach(input => {
-                        input.disabled = false;
-                    });
-
+                    row.querySelectorAll('.editable').forEach(input => input.disabled = false);
                     row.querySelector('.save-btn').classList.remove('hidden');
                     button.classList.add('hidden');
                 });
             });
 
+            // Scroll forzado al encabezado al cargar la página
+            const scrollToHeader = () => {
+                const hash = window.location.hash;
+                if (hash === '#sessions-header') {
+                    const el = document.getElementById('sessions-header');
+                    if (el) {
+                        const headerOffset = 80; // Ajusta según altura de tu navbar
+                        const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - headerOffset;
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            };
+            window.setTimeout(scrollToHeader, 50);
         });
-    </script>
 
+        // Función para cambiar cantidad de registros por página con botones
+        function changePerPage(value) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('perPage', value);
+            url.hash = 'sessions-header'; // Mantener scroll al encabezado
+            window.location.href = url.toString();
+        }
+    </script>
 </x-app-layout>

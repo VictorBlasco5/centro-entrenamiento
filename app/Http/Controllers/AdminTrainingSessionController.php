@@ -7,10 +7,16 @@ use Illuminate\Http\Request;
 
 class AdminTrainingSessionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $sessions = TrainingSession::orderBy('start_time')->get();
-        return view('admin.training', compact('sessions'));
+        $perPage = $request->get('perPage', 10);
+
+        // Paginación con pocos números de página
+        $sessions = TrainingSession::orderBy('start_time')
+            ->paginate($perPage)
+            ->onEachSide(1); // 1 enlace a cada lado
+
+        return view('admin.training', compact('sessions', 'perPage'));
     }
 
     public function store(Request $request)
