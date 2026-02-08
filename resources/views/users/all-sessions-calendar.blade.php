@@ -146,46 +146,48 @@
     }
 
     // Función para apuntarse a una sesión
-    const result = await Swal.fire({
-        title: '<span style="font-weight:600; font-size:20px; color:#1f2937;">Confirmar reserva</span>',
-        showCancelButton: true,
-        confirmButtonText: 'Reservar',
-        cancelButtonText: 'Cancelar',
-        reverseButtons: true,
-        buttonsStyling: false,
-        customClass: {
-            popup: 'swal-fine-popup',
-            confirmButton: 'swal-fine-confirm',
-            cancelButton: 'swal-fine-cancel',
-            icon: 'swal-fine-icon'
-        }
-    });
-
-    if (!result.isConfirmed) return;
-
-    try {
-        const res = await fetch(`/sessions/${sessionId}/reserve`, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                'Content-Type': 'application/json'
+    async function reserve(sessionId) {
+        const result = await Swal.fire({
+            title: '<span style="font-weight:600; font-size:20px; color:#1f2937;">Confirmar reserva</span>',
+            showCancelButton: true,
+            confirmButtonText: 'Reservar',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true,
+            buttonsStyling: false,
+            customClass: {
+                popup: 'swal-fine-popup',
+                confirmButton: 'swal-fine-confirm',
+                cancelButton: 'swal-fine-cancel',
+                icon: 'swal-fine-icon'
             }
         });
 
-        const data = await res.json();
+        if (!result.isConfirmed) return;
 
-        if (!res.ok) throw new Error(data.message || 'Error al reservar');
+        try {
+            const res = await fetch(`/sessions/${sessionId}/reserve`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                }
+            });
 
-        showSuccessToast(data.message || 'Reserva realizada');
+            const data = await res.json();
 
-        // Si el backend devuelve reservationsCount lo usamos (recomendado). Si no, incrementamos localmente.
-        const newCount = (typeof data.reservationsCount !== 'undefined') ?
-            Number(data.reservationsCount) :
-            (Number(calendar.getEventById(String(sessionId)).extendedProps.reservationsCount || 0) + 1);
+            if (!res.ok) throw new Error(data.message || 'Error al reservar');
 
-        updateEventReservations(sessionId, newCount);
-    } catch (err) {
-        showErrorToast(err.message || 'Error al reservar');
+            showSuccessToast(data.message || 'Reserva realizada');
+
+            // Si el backend devuelve reservationsCount lo usamos (recomendado). Si no, incrementamos localmente.
+            const newCount = (typeof data.reservationsCount !== 'undefined') ?
+                Number(data.reservationsCount) :
+                (Number(calendar.getEventById(String(sessionId)).extendedProps.reservationsCount || 0) + 1);
+
+            updateEventReservations(sessionId, newCount);
+        } catch (err) {
+            showErrorToast(err.message || 'Error al reservar');
+        }
     }
 
     const TOAST_DURATION = 3000;
