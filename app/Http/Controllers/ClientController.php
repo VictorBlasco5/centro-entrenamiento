@@ -104,7 +104,7 @@ class ClientController extends Controller
         return view('history-sessions', compact('sessions'));
     }
 
-    public function cancel(TrainingSession $session)
+    public function cancel(Request $request, TrainingSession $session)
     {
         $userId = Auth::id();
 
@@ -113,12 +113,19 @@ class ClientController extends Controller
             ->first();
 
         if (!$reservation) {
+            if ($request->wantsJson()) {
+                return response()->json(['message' => 'No estás apuntado a esta sesión'], 404);
+            }
             return redirect()->back()->with('error', 'No estás apuntado a esta sesión');
         }
 
         $reservation->delete();
 
-        return redirect()->back()->with('success', 'Reserva cancelada');
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Reserva cancelada.']);
+        }
+
+        return redirect()->back()->with('success', 'Reserva cancelada.');
     }
 
     public function annualCalendar()
